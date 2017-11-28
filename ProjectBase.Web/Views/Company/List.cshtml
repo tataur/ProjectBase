@@ -1,0 +1,41 @@
+﻿@model ProjectBase.Web.Models.Company.CompanyListModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@if (Model.Companies != null)
+{
+    <table class="table">
+        <tr>
+            <th>Название</th>
+            <th>Тип</th>
+        </tr>
+
+        @foreach (var item in Model.Companies)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @if (item.IsCustomer)
+                    {
+                        @:Заказчик
+            }
+                    else
+                    {
+                        @:Исполнитель
+            }
+                </td>
+            </tr>
+        }
+
+    </table>
+}

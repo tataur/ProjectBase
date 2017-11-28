@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBase.DAL.Entities.Company
 {
+    [Table("Company")]
     public class CompanyEntity : CommonEntity
     {
         public string Name { get; set; }
-        public CompanyType Type { get; set; }
-    }
-
-    public enum CompanyType
-    {
-        Customer, Performer
+        public bool IsCustomer { get; set; }
     }
 }

@@ -1,0 +1,14 @@
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.Logic.dll.config
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.Logic.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.Logic.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\EntityFramework.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\EntityFramework.SqlServer.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.DAL.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.DAL.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\ProjectBase.DAL.dll.config
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\EntityFramework.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\bin\Debug\EntityFramework.SqlServer.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\obj\Debug\ProjectBase.Logic.csprojResolveAssemblyReference.cache
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\obj\Debug\ProjectBase.Logic.csproj.CoreCompileInputs.cache
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\obj\Debug\ProjectBase.Logic.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Logic\obj\Debug\ProjectBase.Logic.pdb

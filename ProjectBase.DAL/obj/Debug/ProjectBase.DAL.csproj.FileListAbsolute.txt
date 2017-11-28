@@ -4,3 +4,13 @@ C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DA
 C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csproj.CoreCompileInputs.cache
 C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.dll
 C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\ProjectBase.DAL.dll.config
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\ProjectBase.DAL.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\ProjectBase.DAL.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csproj.CoreCompileInputs.cache
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.pdb

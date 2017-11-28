@@ -1,0 +1,39 @@
+﻿@model ProjectBase.Web.Models.Employee.EmployeeListModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@if(Model.Employees != null) { 
+<table class="table">
+    <tr>
+        <th>ФИО</th>
+        <th>Должность</th>
+    </tr>
+
+@foreach (var item in Model.Employees) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.GetFullName(), "Details", new { Id=item.Id })
+        </td>
+        <td>
+            @if (item.IsChief)
+            {
+                @:Руководитель
+            }
+            else
+            {
+                @:Рабочий
+            }
+        </td>
+    </tr>
+}
+
+</table>
+}

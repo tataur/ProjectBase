@@ -1,0 +1,13 @@
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\ProjectBase.Tests.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\ProjectBase.Tests.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\obj\Debug\ProjectBase.Tests.csprojResolveAssemblyReference.cache
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\obj\Debug\ProjectBase.Tests.csproj.CoreCompileInputs.cache
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\obj\Debug\ProjectBase.Tests.dll
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.Tests\obj\Debug\ProjectBase.Tests.pdb
