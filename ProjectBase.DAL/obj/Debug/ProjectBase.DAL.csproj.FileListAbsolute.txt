@@ -1,0 +1,6 @@
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\bin\Debug\ProjectBase.DAL.dll
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\bin\Debug\ProjectBase.DAL.pdb
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.dll
+C:\Users\Sveta\source\repos\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.pdb
