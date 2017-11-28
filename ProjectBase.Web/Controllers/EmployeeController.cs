@@ -43,12 +43,7 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Create(EmployeeModel model)
         {
             logger.Info("Create() called Post");
-            logger.Debug("model.Id: " + model.Id);
-            logger.Debug("model.FirstName: " + model.FirstName);
-            logger.Debug("model.SecondName: " + model.SecondName);
-            logger.Debug("model.Patronymic: " + model.Patronymic);
-            logger.Debug("model.Email: " + model.Email);
-            logger.Debug("model.IsChief: " + model.IsChief);
+            LogCreateModel(model);
 
             if (ModelState.IsValid)
             {
@@ -76,15 +71,7 @@ namespace ProjectBase.Web.Controllers
 
             var employee = Context.Employees.FirstOrDefault(e => e.Id == Id);
             logger.Info("employee.Id: " + employee.Id);
-
-            var model = new EmployeeModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Patronymic = employee.Patronymic,
-                IsChief = employee.IsChief
-            };
+            EmployeeModel model = CreateEmployeeModel(employee);
             return View(model);
         }
 
@@ -95,14 +82,7 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Id: " + Id);
 
             var employee = Context.Employees.FirstOrDefault(e => e.Id == Id);
-            var model = new EmployeeModel
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Patronymic = employee.Patronymic,
-                IsChief = employee.IsChief
-            };
+            EmployeeModel model = CreateEmployeeModel(employee);
             return View(model);
         }
 
@@ -110,12 +90,8 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Edit(EmployeeModel model)
         {
             logger.Info("Edit() called Post");
-            logger.Debug("model.Id: " + model.Id);
-            logger.Debug("model.FirstName: " + model.FirstName);
-            logger.Debug("model.SecondName: " + model.SecondName);
-            logger.Debug("model.Patronymic: " + model.Patronymic);
-            logger.Debug("model.Email: " + model.Email);
-            logger.Debug("model.IsChief: " + model.IsChief);
+            LogCreateModel(model);
+
             var employee = Context.Employees.FirstOrDefault(e => e.Id == model.Id);
 
             if (ModelState.IsValid && employee != null)
@@ -130,6 +106,29 @@ namespace ProjectBase.Web.Controllers
                 Context.SaveChanges();
             }
             return RedirectToAction("Details", new { Id = employee.Id });
+        }
+
+        private static EmployeeModel CreateEmployeeModel(EmployeeEntity employee)
+        {
+            return new EmployeeModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                SecondName = employee.SecondName,
+                Patronymic = employee.Patronymic,
+                Email = employee.Email,
+                IsChief = employee.IsChief
+            };
+        }
+
+        private static void LogCreateModel(EmployeeModel model)
+        {
+            logger.Debug("model.Id: " + model.Id);
+            logger.Debug("model.FirstName: " + model.FirstName);
+            logger.Debug("model.SecondName: " + model.SecondName);
+            logger.Debug("model.Patronymic: " + model.Patronymic);
+            logger.Debug("model.Email: " + model.Email);
+            logger.Debug("model.IsChief: " + model.IsChief);
         }
     }
 }

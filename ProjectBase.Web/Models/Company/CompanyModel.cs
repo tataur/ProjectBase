@@ -9,6 +9,5 @@ namespace ProjectBase.Web.Models.Company
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public bool IsCustomer { get; set; }
     }
 }

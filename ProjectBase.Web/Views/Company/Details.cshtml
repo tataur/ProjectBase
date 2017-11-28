@@ -1,34 +1,24 @@
 ﻿@model ProjectBase.Web.Models.Company.CompanyModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Детали";
 }
 
-<h2>Details</h2>
+<h2>Детали</h2>
 
 <div>
-    <h4>CompanyModel</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.LabelFor(model => model.Name, "Название")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsCustomer)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsCustomer)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { Id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { Id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
 </p>

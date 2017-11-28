@@ -6,6 +6,5 @@ namespace ProjectBase.DAL.Entities.Company
     public class CompanyEntity : CommonEntity
     {
         public string Name { get; set; }
-        public bool IsCustomer { get; set; }
     }
 }

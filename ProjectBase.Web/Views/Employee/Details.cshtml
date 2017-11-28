@@ -4,14 +4,12 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Деталиtails</h2>
 
 <div>
-    <h4>EmployeeCreateModel</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.LabelFor(model => model.FirstName, "Имя")
         </dt>
 
         <dd>
@@ -19,7 +17,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SecondName)
+            @Html.LabelFor(model => model.SecondName, "Фамилия")
         </dt>
 
         <dd>
@@ -27,7 +25,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Patronymic)
+            @Html.LabelFor(model => model.Patronymic, "Отчество")
         </dt>
 
         <dd>
@@ -43,7 +41,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsChief)
+            @Html.LabelFor(model => model.IsChief, "Руководитель")
         </dt>
 
         <dd>
@@ -53,6 +51,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { Id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { Id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
 </p>

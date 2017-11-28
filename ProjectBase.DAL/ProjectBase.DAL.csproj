@@ -53,6 +53,7 @@
     <Compile Include="Entities\CommonEntity.cs" />
     <Compile Include="Entities\Company\CompanyEntity.cs" />
     <Compile Include="Entities\Employee\EmployeeEntity.cs" />
+    <Compile Include="Entities\Project\ParticipantsJson.cs" />
     <Compile Include="Entities\Project\ProjectEntity.cs" />
     <Compile Include="Entities\Project\ProjectParticipantEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

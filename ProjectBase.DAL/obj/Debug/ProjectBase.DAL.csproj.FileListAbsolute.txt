@@ -11,6 +11,7 @@ C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.dll
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.SqlServer.dll
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.xml
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csprojResolveAssemblyReference.cache
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csproj.CoreCompileInputs.cache
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.dll
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.pdb

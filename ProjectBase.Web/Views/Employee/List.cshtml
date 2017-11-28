@@ -4,23 +4,31 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Сотрудники</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Создать", "Create")
 </p>
 
 @if(Model.Employees != null) { 
 <table class="table">
     <tr>
-        <th>ФИО</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Отчество</th>
         <th>Должность</th>
     </tr>
 
 @foreach (var item in Model.Employees) {
     <tr>
         <td>
-            @Html.ActionLink(item.GetFullName(), "Details", new { Id=item.Id })
+            @Html.ActionLink(item.SecondName, "Details", new { Id=item.Id })
+        </td>
+        <td>
+            @Html.ActionLink(item.FirstName, "Details", new { Id = item.Id })
+        </td>
+        <td>
+            @Html.ActionLink(item.Patronymic, "Details", new { Id = item.Id })
         </td>
         <td>
             @if (item.IsChief)

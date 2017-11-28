@@ -3,9 +3,7 @@ using ProjectBase.DAL.DBContext;
 using ProjectBase.DAL.Entities.Company;
 using ProjectBase.Web.Models.Company;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProjectBase.Web.Controllers
@@ -14,6 +12,7 @@ namespace ProjectBase.Web.Controllers
     {
         private static Logger logger = LogManager.GetLogger("Companies");
         private readonly EFProjectBaseContext Context = new EFProjectBaseContext();
+        
         // GET: Employee
         public ActionResult Index()
         {
@@ -24,6 +23,7 @@ namespace ProjectBase.Web.Controllers
         public ActionResult List()
         {
             logger.Info("List() called");
+
             var q = Context.Companies;
             logger.Debug("Companies: " + q.Count());
 
@@ -46,7 +46,6 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Create() called Post");
             logger.Debug("model.Id: " + model.Id);
             logger.Debug("model.Name: " + model.Name);
-            logger.Debug("model.IsCustomer: " + model.IsCustomer);
 
             if (ModelState.IsValid)
             {
@@ -54,7 +53,6 @@ namespace ProjectBase.Web.Controllers
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    IsCustomer = model.IsCustomer
                 };
                 company.FillFieldsOnCreate();
                 Context.Companies.Add(company);
@@ -71,12 +69,7 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Id: " + Id);
 
             var company = Context.Companies.FirstOrDefault(c => c.Id == Id);
-            var model = new CompanyModel
-            {
-                Id = company.Id,
-                Name = company.Name,
-                IsCustomer = company.IsCustomer
-            };
+            CompanyModel model = CreateCompanyModel(company);
             return View(model);
         }
 
@@ -88,13 +81,7 @@ namespace ProjectBase.Web.Controllers
 
             var company = Context.Companies.FirstOrDefault(c => c.Id == Id);
             logger.Info("company.Id: " + company.Id);
-
-            var model = new CompanyModel
-            {
-                Id = company.Id,
-                Name = company.Name,
-                IsCustomer = company.IsCustomer
-            };
+            CompanyModel model = CreateCompanyModel(company);
             return View(model);
         }
 
@@ -104,7 +91,6 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Edit() called Post");
             logger.Debug("model.Id: " + model.Id);
             logger.Debug("model.Name: " + model.Name);
-            logger.Debug("model.IsCustomer: " + model.IsCustomer);
 
             var company = Context.Companies.FirstOrDefault(c => c.Id == model.Id);
 
@@ -112,11 +98,19 @@ namespace ProjectBase.Web.Controllers
             {
                 company.Id = model.Id;
                 company.Name = model.Name;
-                company.IsCustomer = model.IsCustomer;
 
                 Context.SaveChanges();
             }
             return RedirectToAction("Details", new { Id = company.Id });
+        }
+
+        private static CompanyModel CreateCompanyModel(CompanyEntity company)
+        {
+            return new CompanyModel
+            {
+                Id = company.Id,
+                Name = company.Name,
+            };
         }
     }
 }

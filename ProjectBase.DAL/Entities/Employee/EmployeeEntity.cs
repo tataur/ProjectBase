@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBase.DAL.Entities.Employee
 {
@@ -21,10 +15,9 @@ namespace ProjectBase.DAL.Entities.Employee
         {
             if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(SecondName) && string.IsNullOrWhiteSpace(Patronymic))
             {
-                return "ID:" + Id;
+                return "Человек без имени";
             }
-            var separator = !string.IsNullOrWhiteSpace(FirstName) && !string.IsNullOrWhiteSpace(SecondName) && !string.IsNullOrWhiteSpace(Patronymic) ? " " : "";
-            return FirstName + separator + SecondName + separator + Patronymic;
+            return FirstName + " " + SecondName + " " + Patronymic;
         }
     }
 }

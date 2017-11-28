@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectBase.Web.Models.Project.ProjectListModel>
+﻿@model ProjectBase.Web.Models.Project.ProjectListModel
 
 @{
     ViewBag.Title = "List";
@@ -9,19 +9,54 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<div>
+    @using (Html.BeginForm("List", "Project", FormMethod.Get))
+    {
+        <div>
+            @Html.TextBox("search", Model.SearchString, new { placeholder = "Поиск", @class = "search-input", type = "search" })
+            <input id="submitButton" type="submit" value="Найти" class="btn btn-default" />
+        </div>
+        <div>
+            <div>
+                <div class="filter-div left-al">
+                    @Html.TextBox("fromDate", Model.FromDate, new { placeholder="Дата начала" })
+                    @Html.TextBox("toDate", Model.ToDate, new { placeholder = "Дата окончания" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<p>
+    Найдено @Model.Projects.Count:
+</p>
+
 <table class="table">
     <tr>
-        <th></th>
+        <th>Name</th>
+        <th>Customer</th>
+        <th>Performer</th>
+        <th>Chief</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Projects)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { Id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink(item.CompanyCustomer.Name, "Details", "Company", new { Id = item.CompanyCustomer.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.CompanyPerformer.Name, "Details", "Company", new { Id = item.CompanyPerformer.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.ProjectChief.GetFullName(), "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
+            </td>
+        </tr>
+    }
 
 </table>
