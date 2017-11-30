@@ -1,0 +1,149 @@
+2017-11-30 11:21:24.3874|INFO|Edit() called Post
+2017-11-30 11:21:24.3874|DEBUG|model.Id: c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 11:21:24.3874|DEBUG|model.FirstName: новый 
+2017-11-30 11:21:24.3874|DEBUG|model.SecondName: пользователь
+2017-11-30 11:21:24.3874|DEBUG|model.Patronymic: старый
+2017-11-30 11:21:24.3874|DEBUG|model.Email: nik86@ya.ru11
+2017-11-30 11:21:24.3874|DEBUG|model.IsChief: True
+2017-11-30 11:21:25.4197|INFO|Details() called
+2017-11-30 11:21:25.4197|INFO|Id: c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 11:21:25.4197|INFO|employee.Id: c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 11:21:25.4197|INFO|CreateEmployeeModel: employeeModel.Employee.Id = c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 11:21:32.1737|INFO|Index() called
+2017-11-30 11:21:32.1737|INFO|List() called
+2017-11-30 11:21:32.1737|DEBUG|Employees:3
+2017-11-30 11:36:56.5091|INFO|Index() called
+2017-11-30 11:36:56.5291|INFO|List() called
+2017-11-30 11:36:58.1407|DEBUG|Employees:3
+2017-11-30 11:39:58.4802|INFO|Index() called
+2017-11-30 11:39:58.5002|INFO|List() called
+2017-11-30 11:40:00.0573|DEBUG|Employees:3
+2017-11-30 11:42:09.3545|INFO|Index() called
+2017-11-30 11:42:09.3545|INFO|List() called
+2017-11-30 11:42:09.3545|DEBUG|Employees:3
+2017-11-30 11:42:13.9109|INFO|Details() called
+2017-11-30 11:42:13.9109|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:14.1369|INFO|employee.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:14.1369|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:16.7186|INFO|Edit() called Get
+2017-11-30 11:42:16.7186|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:16.7186|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:18.7958|INFO|Edit() called Post
+2017-11-30 11:42:18.7958|DEBUG|model.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:18.7958|DEBUG|model.FirstName: 55
+2017-11-30 11:42:18.7958|DEBUG|model.SecondName: 54
+2017-11-30 11:42:18.7958|DEBUG|model.Patronymic: 33
+2017-11-30 11:42:18.7958|DEBUG|model.Email: 44
+2017-11-30 11:42:18.7958|DEBUG|model.IsChief: False
+2017-11-30 11:42:19.0078|INFO|Details() called
+2017-11-30 11:42:19.0078|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:19.0078|INFO|employee.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:19.0078|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:42:20.9465|INFO|Index() called
+2017-11-30 11:42:20.9465|INFO|List() called
+2017-11-30 11:42:20.9465|DEBUG|Employees:3
+2017-11-30 11:47:51.6563|INFO|Details() called
+2017-11-30 11:47:51.6563|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:47:52.0196|INFO|employee.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:47:52.0196|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 11:47:55.8743|INFO|Details() called
+2017-11-30 11:47:55.8743|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:47:55.8743|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:47:55.8743|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:49:05.9147|INFO|Index() called
+2017-11-30 11:49:05.9147|INFO|List() called
+2017-11-30 11:49:05.9147|DEBUG|Employees:3
+2017-11-30 11:49:08.6746|INFO|Details() called
+2017-11-30 11:49:08.6746|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:49:08.6746|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:49:08.6746|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:49:09.8812|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:51:19.3237|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:51:23.0802|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:52:04.8810|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:52:13.7104|INFO|Details() called
+2017-11-30 11:52:13.7104|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:52:13.7104|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:52:13.7104|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:52:15.6558|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:53:23.0521|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:53:53.4663|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:53:55.5115|INFO|Index() called
+2017-11-30 11:53:55.5115|INFO|List() called
+2017-11-30 11:53:55.5115|DEBUG|Employees:3
+2017-11-30 11:54:55.9858|INFO|Index() called
+2017-11-30 11:54:56.0048|INFO|List() called
+2017-11-30 11:54:57.5058|DEBUG|Employees:3
+2017-11-30 11:55:03.6949|INFO|Details() called
+2017-11-30 11:55:03.6949|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:55:03.9170|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:55:03.9170|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:55:05.1110|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:06.6101|INFO|Details() called
+2017-11-30 11:56:06.6101|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:06.6101|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:06.6101|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:08.8758|INFO|Details() called
+2017-11-30 11:56:08.8758|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:08.8758|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:08.8758|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:56:10.0111|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:58:24.1196|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 11:59:44.7442|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:00:15.0268|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:00:32.0771|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:02:28.9951|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:04:53.7055|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:06:25.4564|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:07:20.4864|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:07:59.5334|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:08:47.9209|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:09:14.7276|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:10:39.5857|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:11:48.4154|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:11:55.0532|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:12:15.0592|INFO|Index() called
+2017-11-30 12:12:15.0592|INFO|List() called
+2017-11-30 12:12:15.0592|DEBUG|Employees:3
+2017-11-30 12:14:42.8655|INFO|Index() called
+2017-11-30 12:14:42.8825|INFO|List() called
+2017-11-30 12:14:44.4704|DEBUG|Employees:3
+2017-11-30 12:14:46.8445|INFO|Details() called
+2017-11-30 12:14:46.8445|INFO|Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:14:47.0697|INFO|employee.Id: b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:14:47.0697|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:14:48.4683|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:16:23.2740|INFO|CreateEmployeeModel: employeeModel.Employee.Id = b332a44b-bea4-4a3f-9fbd-79da612d0f61
+2017-11-30 12:33:15.3158|INFO|Index() called
+2017-11-30 12:33:15.3328|INFO|List() called
+2017-11-30 12:33:17.0250|DEBUG|Employees:3
+2017-11-30 12:33:21.5522|INFO|Details() called
+2017-11-30 12:33:21.5522|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:21.7603|INFO|employee.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:21.7603|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:23.5423|INFO|Edit() called Get
+2017-11-30 12:33:23.5423|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:23.5423|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:26.9999|INFO|Edit() called Post
+2017-11-30 12:33:26.9999|DEBUG|model.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:26.9999|DEBUG|model.FirstName: 55
+2017-11-30 12:33:26.9999|DEBUG|model.SecondName: 54
+2017-11-30 12:33:26.9999|DEBUG|model.Patronymic: 33
+2017-11-30 12:33:26.9999|DEBUG|model.Email: 44v
+2017-11-30 12:33:26.9999|DEBUG|model.IsChief: True
+2017-11-30 12:33:27.2237|INFO|Details() called
+2017-11-30 12:33:27.2237|INFO|Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:27.2257|INFO|employee.Id: 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:27.2257|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:29.4291|INFO|CreateEmployeeModel: employeeModel.Employee.Id = 7983eeee-1096-400f-b7f6-11d34cabef34
+2017-11-30 12:33:32.6751|INFO|Index() called
+2017-11-30 12:33:32.6751|INFO|List() called
+2017-11-30 12:33:32.6751|DEBUG|Employees:3
+2017-11-30 12:33:34.1479|INFO|Details() called
+2017-11-30 12:33:34.1479|INFO|Id: c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 12:33:34.1479|INFO|employee.Id: c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 12:33:34.1479|INFO|CreateEmployeeModel: employeeModel.Employee.Id = c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 12:33:35.2220|INFO|CreateEmployeeModel: employeeModel.Employee.Id = c18a0abe-54e4-4aa6-86b8-be4013d11038
+2017-11-30 12:33:41.6928|INFO|Index() called
+2017-11-30 12:33:41.6928|INFO|List() called
+2017-11-30 12:33:41.6948|DEBUG|Employees:3

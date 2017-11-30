@@ -47,10 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICommonRepository.cs" />
-    <Compile Include="Concrete\EmployeeRepo.cs" />
-    <Compile Include="DTO\Employee.cs" />
+    <Compile Include="DTO\EntitiesDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectBase.DAL\ProjectBase.DAL.csproj">

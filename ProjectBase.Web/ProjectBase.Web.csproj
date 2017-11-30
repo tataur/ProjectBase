@@ -138,11 +138,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AutocompleteJsonModel.cs" />
+    <Compile Include="Models\JsonModels.cs" />
     <Compile Include="Models\Company\CompanyListModel.cs" />
     <Compile Include="Models\Company\CompanyModel.cs" />
-    <Compile Include="Models\Employee\EmployeeModel.cs" />
-    <Compile Include="Models\Employee\EmployeeListModel.cs" />
+    <Compile Include="Models\ContextModel.cs" />
+    <Compile Include="Models\ProjectBaseModels.cs" />
     <Compile Include="Models\Project\ProjectDetailsModel.cs" />
     <Compile Include="Models\Project\ProjectListModel.cs" />
     <Compile Include="Models\Project\ProjectModel.cs" />
@@ -166,6 +166,8 @@
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Details.cshtml" />
+    <Content Include="Views\Employee\Delete.cshtml" />
+    <Content Include="Views\Employee\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -178,10 +180,6 @@
     <Folder Include="Views\Autocomplete\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProjectBase.DAL\ProjectBase.DAL.csproj">
-      <Project>{b5fcabfa-e1a5-49f6-9730-9a71d5ab3615}</Project>
-      <Name>ProjectBase.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ProjectBase.Logic\ProjectBase.Logic.csproj">
       <Project>{47bcd413-5a62-435e-b4f1-aa8883c97bcc}</Project>
       <Name>ProjectBase.Logic</Name>

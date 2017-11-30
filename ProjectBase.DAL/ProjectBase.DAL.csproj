@@ -47,8 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICommonRepository.cs" />
-    <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="DBContext\EFProjectBaseContext.cs" />
     <Compile Include="Entities\CommonEntity.cs" />
     <Compile Include="Entities\Company\CompanyEntity.cs" />

@@ -1,56 +1,57 @@
-﻿@model ProjectBase.Web.Models.Employee.EmployeeModel
+﻿@model ProjectBase.Web.Models.ContextModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Деталиtails</h2>
+<h2>Детали</h2>
 
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @Html.LabelFor(model => model.FirstName, "Имя")
+            @Html.LabelFor(model => model.Employee.FirstName, "Имя")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Employee.FirstName)
         </dd>
 
         <dt>
-            @Html.LabelFor(model => model.SecondName, "Фамилия")
+            @Html.LabelFor(model => model.Employee.SecondName, "Фамилия")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SecondName)
+            @Html.DisplayFor(model => model.Employee.SecondName)
         </dd>
 
         <dt>
-            @Html.LabelFor(model => model.Patronymic, "Отчество")
+            @Html.LabelFor(model => model.Employee.Patronymic, "Отчество")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Patronymic)
+            @Html.DisplayFor(model => model.Employee.Patronymic)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Employee.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Employee.Email)
         </dd>
 
         <dt>
-            @Html.LabelFor(model => model.IsChief, "Руководитель")
+            @Html.LabelFor(model => model.Employee.IsChief, "Руководитель")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsChief)
+            @Html.DisplayFor(model => model.Employee.IsChief)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Редактировать", "Edit", new { Id = Model.Id }) |
+    @Html.ActionLink("Редактировать", "Edit", new { Id = Model.Employee.Id }) |
+    @Html.ActionLink("Удалить", "Delete", new { Id = Model.Employee.Id }) |
     @Html.ActionLink("Назад к списку", "Index")
 </p>

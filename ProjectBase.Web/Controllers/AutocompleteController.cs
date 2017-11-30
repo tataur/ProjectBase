@@ -41,5 +41,20 @@ namespace ProjectBase.Web.Controllers
 
             return Json(employeesList.ToArray(), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ParticipantsAutocomplete(string projectId)
+        {
+            logger.Info("ParticipantsAutocomplete called");
+            logger.Info("projectId = " + projectId);
+
+            var employees = Context.Employees.OrderBy(c => c.SecondName);
+            logger.Info("employees.Count() = " + employees.Count());
+            var participants = Context.Participants.Where(p => p.Project.Id.ToString() == projectId);
+            logger.Info("participants.Count() = " + participants.Count());
+
+            List<AutocompleteJsonModel> employeesList = employees.Select(entity => new AutocompleteJsonModel { id = "" + entity.Id, value = entity.SecondName, label = entity.SecondName }).ToList();
+
+            return Json(employeesList.ToArray(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

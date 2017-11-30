@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
@@ -12,6 +12,30 @@
 
 
 <script>
+    $(document).ready(function () {
+        GetParticipants();
+    });
+
+    function GetParticipants() {
+        $.ajax({
+            type: "POST",
+            url: '/Project/GetParticipants',
+            data: { projectId: '@Model.Id' },
+            success: function (response) {
+                console.log(response);
+                AjaxResponse(response);
+            }
+        });
+    }
+
+    function AjaxResponse(response) {
+        if (response!=0) {
+            for (var i = 0; i < response.length; i++) {
+                $("#participants").append("<li>" + response[i].name + "</li>")
+            }
+        }
+    }
+
     function CompanyAutocomplete(inputId, hiddenInputId) {
         this.init = function () {
             getInput().autocomplete({
@@ -41,6 +65,18 @@
         function getInput() { return $("#" + inputId); }
         function getHidden() { return $("#" + hiddenInputId); }
     }
+
+
+
+    //function AjaxResponse(response) {
+    //    if (response != 0) {
+    //        for (var i = 0; i < response.length; i++) {
+    //            $("#participants").append("<li>" + response[i].name + "</li>")
+    //        }
+    //    }
+    //}
+
+
 </script>
 
 @using (Html.BeginForm())
@@ -94,6 +130,44 @@
             var _employeeWidget = new EmployeeAutocomplete("project-chief-autocomplete", "ProjectChiefId");
             _employeeWidget.init();
         </script>
+
+        <div class="form-group">
+            @Html.Label("Участники", new { @class = "control-label col-md-2" })
+
+            <dd id="participants">
+
+            </dd>
+
+            <div class="col-md-10">
+                @Html.TextBox("participant-autocomplete", "", new { type = "search", placeholder = "Выберите сотрудника" })
+                @Html.Hidden("PartId")
+                <input id="addParticipant" type="button" value="добавить" class="btn btn-default" />
+            </div>
+
+
+        </div>
+        <script>
+            var _partWidget = new EmployeeAutocomplete("participant-autocomplete", "PartId");
+            _partWidget.init();
+
+            $("#addParticipant").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '/Project/AddParticipant',
+                    data: {
+                        employeeId: $('#PartId').val(),
+                        projectId: '@Model.Id'
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        GetParticipants();
+                        //AjaxResponse(response);
+                    }
+                });
+            });
+        </script>
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })

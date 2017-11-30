@@ -4,19 +4,70 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+    function CompanyAutocomplete(inputId, hiddenInputId) {
+        this.init = function () {
+            getInput().autocomplete({
+                source: "/Autocomplete/CompaniesAutocomplete/",
+                minLength: 0,
+                select: function (event, ui) {
+                    getHidden().val(ui.item.id);
+                }
+            });
+        };
+
+        function getInput() { return $("#" + inputId); }
+        function getHidden() { return $("#" + hiddenInputId); }
+    }
+
+    function EmployeeAutocomplete(inputId, hiddenInputId) {
+        this.init = function () {
+            getInput().autocomplete({
+                source: "/Autocomplete/EmployeesAutocomplete/",
+                minLength: 0,
+                select: function (event, ui) {
+                    getHidden().val(ui.item.id);
+                }
+            });
+        };
+
+        function getInput() { return $("#" + inputId); }
+        function getHidden() { return $("#" + hiddenInputId); }
+    }
+
+    function ParticipantAutocomplete(inputId, hiddenInputId) {
+        this.init = function () {
+            getInput().autocomplete({
+                source: "/Autocomplete/ParticipantsAutocomplete/",
+                minLength: 0,
+                data: {
+                    projectId: projectId
+                },
+                select: function (event, ui) {
+                    getHidden().val(ui.item.id);
+                }
+            });
+        };
+
+        function getInput() { return $("#" + inputId); }
+        function getHidden() { return $("#" + '@Model.Id'); }
+    }
+</script>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ProjectModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -26,28 +77,80 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyCustomerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CompanyCustomerId, "Компания-заказчик", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CompanyCustomerId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyCustomerId, "", new { @class = "text-danger" })
+                @Html.TextBox("company-customer-autocomplete", "", new { type = "search", placeholder = "Выберите компанию" })
+                @Html.Hidden("CompanyCustomerId", Model.CompanyCustomerId)
             </div>
         </div>
+        <script>
+            var _companyCustomerWidget = new CompanyAutocomplete("company-customer-autocomplete", "CompanyCustomerId");
+            _companyCustomerWidget.init();
+        </script>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyPerformerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CompanyPerformerId, "Компания-исполнитель", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CompanyPerformerId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyPerformerId, "", new { @class = "text-danger" })
+                @Html.TextBox("company-performer-autocomplete", "", new { type = "search", placeholder = "Выберите компанию" })
+                @Html.Hidden("CompanyPerformerId", Model.CompanyPerformerId)
             </div>
         </div>
+        <script>
+            var _companyPerformerWidget = new CompanyAutocomplete("company-performer-autocomplete", "CompanyPerformerId");
+            _companyPerformerWidget.init();
+        </script>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectChiefId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectChiefId, "Руководитель", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectChiefId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProjectChiefId, "", new { @class = "text-danger" })
+                @Html.TextBox("project-chief-autocomplete", "", new { type = "search", placeholder = "Выберите сотрудника" })
+                @Html.Hidden("ProjectChiefId", Model.ProjectChiefId)
             </div>
         </div>
+        <script>
+            var _employeeWidget = new EmployeeAutocomplete("project-chief-autocomplete", "ProjectChiefId");
+            _employeeWidget.init();
+        </script>
+
+        <div class="form-group">
+            @Html.Label("Участники", new { @class = "control-label col-md-2" })
+
+            <dd id="participants">
+
+            </dd>
+
+            <div class="col-md-10">
+                @Html.TextBox("participant-autocomplete", "", new { type = "search", placeholder = "Выберите сотрудника" })
+                @Html.Hidden("PartId")
+                <input id="addParticipant" type="button" value="добавить" class="btn btn-default" />
+            </div>
+
+
+        </div>
+        <script>
+            var _partWidget = new ParticipantAutocomplete("participant-autocomplete", "PartId");
+            _partWidget.init();
+
+            $("#addParticipant").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Project/AddParticipant",
+                    data: {
+                        employeeId: $("#PartId").val(),
+                        projectId: '@Model.Id'
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        GetParticipants();
+                        //AjaxResponse(response);
+                    }
+                });
+            });
+
+
+        </script>
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,7 +186,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -93,6 +196,51 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    
+    function GetParticipants() {
+        $.ajax({
+            type: "POST",
+            url: '/Project/GetParticipants',
+            data: { projectId: '@Model.Id' },
+            success: function (response) {
+                console.log(response);
+                AjaxResponse(response);
+            }
+        });
+    }
+
+    function DeleteParticipant (id) {
+        alert("delete click");
+        alert(id)
+        $.ajax({
+            type: "POST",
+            url: "/Project/DeleteParticipant",
+            data: {
+                employeeId: id,
+                projectId: '@Model.Id'
+            },
+            success: function (response) {
+                console.log(response);
+                GetParticipants();
+                //AjaxResponse(response);
+            }
+        });
+    };
+
+    function AjaxResponse(response) {
+        if (response!=0) {
+            for (var i = 0; i < response.length; i++) {
+                $("#participants").append("<li>" + response[i].name + " <a href='#' onclick=DeleteParticipant('"  + response[i].id +  "')>удалить</li>")
+            }
+        }
+    }
+
+
+
+    $(document).ready(function () {
+        GetParticipants();
+    });
+
+</script>

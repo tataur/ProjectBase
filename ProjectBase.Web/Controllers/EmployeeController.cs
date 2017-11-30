@@ -1,17 +1,18 @@
-﻿using ProjectBase.DAL.DBContext;
-using ProjectBase.DAL.Entities.Employee;
-using ProjectBase.Web.Models.Employee;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using NLog;
+using ProjectBase.Logic.DTO;
+using ProjectBase.Logic.Services;
+using ProjectBase.Web.Models;
 
 namespace ProjectBase.Web.Controllers
 {
     public class EmployeeController : Controller
     {
         private static Logger logger = LogManager.GetLogger("Employees");
-        private readonly EFProjectBaseContext Context = new EFProjectBaseContext();
+        private readonly EmployeeService EService = new EmployeeService();
+
         // GET: Employee
         public ActionResult Index()
         {
@@ -23,10 +24,10 @@ namespace ProjectBase.Web.Controllers
         {
             logger.Info("List() called");
 
-            var q = Context.Employees;
+            var q = EService.GetAll();
             logger.Debug("Employees:" + q.Count());
 
-            return View("List", new EmployeeListModel
+            return View("List", new ContextModel
             {
                 Employees = q.ToList()
             });
@@ -36,28 +37,17 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Create()
         {
             logger.Info("Create() called Get");
-            return View(new EmployeeModel());
+            return View(new ContextModel());
         }
 
         [HttpPost]
-        public ActionResult Create(EmployeeModel model)
+        public ActionResult Create(ContextModel model)
         {
             logger.Info("Create() called Post");
             LogCreateModel(model);
-
             if (ModelState.IsValid)
             {
-                var employee = new EmployeeEntity
-                {
-                    FirstName = model.FirstName,
-                    SecondName = model.SecondName,
-                    Patronymic = model.Patronymic,
-                    Email = model.Email,
-                    IsChief = model.IsChief
-                };
-                employee.FillFieldsOnCreate();
-                Context.Employees.Add(employee);
-                Context.SaveChanges();
+                EService.Create(model.Employee);
                 logger.Info("Employee added");
             }
 
@@ -69,9 +59,9 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Details() called");
             logger.Info("Id: " + Id);
 
-            var employee = Context.Employees.FirstOrDefault(e => e.Id == Id);
+            var employee = EService.Find(Id);
             logger.Info("employee.Id: " + employee.Id);
-            EmployeeModel model = CreateEmployeeModel(employee);
+            ContextModel model = CreateEmployeeModel(employee);
             return View(model);
         }
 
@@ -81,54 +71,67 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Edit() called Get");
             logger.Info("Id: " + Id);
 
-            var employee = Context.Employees.FirstOrDefault(e => e.Id == Id);
-            EmployeeModel model = CreateEmployeeModel(employee);
+            var employee = EService.Find(Id);
+            ContextModel model = CreateEmployeeModel(employee);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(EmployeeModel model)
+        public ActionResult Edit(ContextModel model)
         {
             logger.Info("Edit() called Post");
             LogCreateModel(model);
 
-            var employee = Context.Employees.FirstOrDefault(e => e.Id == model.Id);
-
-            if (ModelState.IsValid && employee != null)
+            if (ModelState.IsValid)
             {
-                employee.Id = model.Id;
-                employee.FirstName = model.FirstName;
-                employee.SecondName = model.SecondName;
-                employee.Patronymic = model.Patronymic;
-                employee.Email = model.Email;
-                employee.IsChief = model.IsChief;
-                
-                Context.SaveChanges();
+                EService.Edit(model.Employee);
             }
-            return RedirectToAction("Details", new { Id = employee.Id });
+            return RedirectToAction("Details", new { Id = model.Employee.Id });
         }
 
-        private static EmployeeModel CreateEmployeeModel(EmployeeEntity employee)
+        [HttpGet]
+        public ActionResult Delete(Guid Id)
         {
-            return new EmployeeModel
+            var employee = EService.Find(Id);
+            ContextModel model = CreateEmployeeModel(employee);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(ContextModel model)
+        {
+            EService.Delete(model.Employee.Id);
+            return RedirectToAction("Index");
+        }
+
+        private static ContextModel CreateEmployeeModel(EmployeeDTO employee)
+        {
+            var employeeModel = new ContextModel
             {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                SecondName = employee.SecondName,
-                Patronymic = employee.Patronymic,
-                Email = employee.Email,
-                IsChief = employee.IsChief
+                Employee = new EmployeeDTO
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    SecondName = employee.SecondName,
+                    Patronymic = employee.Patronymic,
+                    Email = employee.Email,
+                    IsChief = employee.IsChief
+                }
             };
+
+            logger.Info("CreateEmployeeModel: employeeModel.Employee.Id = " + employeeModel.Employee.Id);
+
+            return employeeModel;
         }
 
-        private static void LogCreateModel(EmployeeModel model)
+        private static void LogCreateModel(ContextModel model)
         {
-            logger.Debug("model.Id: " + model.Id);
-            logger.Debug("model.FirstName: " + model.FirstName);
-            logger.Debug("model.SecondName: " + model.SecondName);
-            logger.Debug("model.Patronymic: " + model.Patronymic);
-            logger.Debug("model.Email: " + model.Email);
-            logger.Debug("model.IsChief: " + model.IsChief);
+            logger.Debug("model.Id: " + model.Employee.Id);
+            logger.Debug("model.FirstName: " + model.Employee.FirstName);
+            logger.Debug("model.SecondName: " + model.Employee.SecondName);
+            logger.Debug("model.Patronymic: " + model.Employee.Patronymic);
+            logger.Debug("model.Email: " + model.Employee.Email);
+            logger.Debug("model.IsChief: " + model.Employee.IsChief);
         }
     }
 }

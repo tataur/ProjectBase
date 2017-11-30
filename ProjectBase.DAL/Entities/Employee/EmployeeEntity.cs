@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBase.DAL.Entities.Employee
 {
@@ -18,6 +20,11 @@ namespace ProjectBase.DAL.Entities.Employee
                 return "Человек без имени";
             }
             return FirstName + " " + SecondName + " " + Patronymic;
+        }
+
+        public static explicit operator EmployeeEntity(List<EmployeeEntity> v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

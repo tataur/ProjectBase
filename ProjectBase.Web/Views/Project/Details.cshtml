@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Details";
 }
-
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <h2>Details</h2>
 
 <div>
@@ -74,9 +75,40 @@
             @Html.DisplayFor(model => model.Comment)
         </dd>
 
+        <dt>
+            Участники:
+        </dt>
+        <dd id="participants">
+        </dd>
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Project/GetParticipants',
+            data: { projectId: '@Model.Id' },
+            success: function (response) {
+                console.log(response);
+                AjaxResponse(response);
+            }
+        });
+    });
+
+    function AjaxResponse(response) {
+        if (response!=0) {
+            for (var i = 0; i < response.length; i++) {
+                $("#participants").append("<li>" + response[i].name + "</li>") 
+            }
+        }
+        else {
+            $("#participants").append("<li>нет участников</li>")
+        }
+    }
+</script>

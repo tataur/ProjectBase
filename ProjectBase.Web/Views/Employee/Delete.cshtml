@@ -1,0 +1,62 @@
+﻿@model ProjectBase.Web.Models.ContextModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model=>model.Employee.Id)
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.LabelFor(model => model.Employee.FirstName, "Имя")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.FirstName)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.Employee.SecondName, "Фамилия")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.SecondName)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.Employee.Patronymic, "Отчество")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.Patronymic)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.Email)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.Employee.IsChief, "Руководитель")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.IsChief)
+            </dd>
+
+        </dl>
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+    }
+</div>
+
+

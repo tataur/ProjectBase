@@ -12,4 +12,10 @@ namespace ProjectBase.Web.Models
         public string value { get; set; }
         public string label { get; set; }
     }
+
+    public class ParticipantsJsonModel
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
 }

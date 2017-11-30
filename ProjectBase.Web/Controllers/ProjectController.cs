@@ -1,6 +1,7 @@
 ﻿using NLog;
-using ProjectBase.DAL.DBContext;
-using ProjectBase.DAL.Entities.Project;
+using ProjectBase.Logic.DTO;
+using ProjectBase.Logic.Services;
+using ProjectBase.Web.Models;
 using ProjectBase.Web.Models.Project;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace ProjectBase.Web.Controllers
     public class ProjectController : Controller
     {
         private static Logger logger = LogManager.GetLogger("Projects");
-        private readonly EFProjectBaseContext Context = new EFProjectBaseContext();
+        private readonly ProjectService PService = new ProjectService();
 
         // GET: Employee
         public ActionResult Index()
@@ -36,23 +37,23 @@ namespace ProjectBase.Web.Controllers
 
         public ActionResult List(string search, string fromDate, string toDate, string sf = "cdate", string sd = "desc", bool showDeleted = false)
         {
-            IQueryable<ProjectEntity> q = Context.Projects;
+            var q = PService.GetAll();
 
             // search
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                q = from e in q
-                    where e.Name.Contains(search)
-                        || e.CompanyCustomer.Name.Contains(search)
-                        || e.CompanyPerformer.Name.Contains(search)
-                        || e.ProjectChief.FirstName.Contains(search)
-                        || e.ProjectChief.SecondName.Contains(search)
-                        || e.ProjectChief.Patronymic.Contains(search)
-                        || e.Priority.ToString().Contains(search)
-                    select e;
-            }
+            //if (!string.IsNullOrWhiteSpace(search))
+            //{
+            //    q = from e in q
+            //        where e.Name.Contains(search)
+            //            || e.CompanyCustomer.Name.Contains(search)
+            //            || e.CompanyPerformer.Name.Contains(search)
+            //            || e.ProjectChief.FirstName.Contains(search)
+            //            || e.ProjectChief.SecondName.Contains(search)
+            //            || e.ProjectChief.Patronymic.Contains(search)
+            //            || e.Priority.ToString().Contains(search)
+            //        select e;
+            //}
 
-            return View("List", new ProjectListModel
+            return View("List", new ContextModel
             {
                 Projects = q.ToList()
             });
@@ -65,31 +66,11 @@ namespace ProjectBase.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ProjectModel model)
+        public ActionResult Create(ContextModel model)
         {
             if (ModelState.IsValid)
             {
-                var companyCustomer = Context.Companies.FirstOrDefault(c => c.Id == model.CompanyCustomerId);
-                var companyPerformer = Context.Companies.FirstOrDefault(c => c.Id == model.CompanyPerformerId);
-                var projectChief = Context.Employees.FirstOrDefault(c => c.Id == model.ProjectChiefId);
-
-                //participants
-
-                var project = new ProjectEntity
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    CompanyCustomer = companyCustomer,
-                    CompanyPerformer = companyPerformer,
-                    ProjectChief = projectChief,
-                    StartDate = model.StartDate,
-                    CloseDate = model.CloseDate,
-                    Priority = model.Priority,
-                    Comment = model.Comment
-                };
-                project.FillFieldsOnCreate();
-                Context.Projects.Add(project);
-                Context.SaveChanges();
+                PService.Create(model.Project);
             }
 
             return RedirectToAction("Index");
@@ -112,37 +93,12 @@ namespace ProjectBase.Web.Controllers
 
         public ActionResult Details(Guid Id)
         {
-            var project = Context.Projects.FirstOrDefault(p => p.Id == Id);
-            ProjectDetailsModel model = new ProjectDetailsModel
-            {
-                Id = project.Id,
-                Name = project.Name,
-                CompanyCustomer = project.CompanyCustomer.Name,
-                CompanyPerformer = project.CompanyPerformer.Name,
-                ProjectChief = project.ProjectChief.GetFullName(),
-                StartDate = project.StartDate,
-                CloseDate = project.CloseDate,
-                Priority = project.Priority,
-                Comment = project.Comment
-            };
-            return View(model);
-        }
+            logger.Info("Details() called");
+            logger.Info("Id: " + Id);
 
-        private static ProjectModel CreateModel(ProjectEntity project)
-        {
-            var model = new ProjectModel
-            {
-                Id = project.Id,
-                Name = project.Name,
-                CompanyCustomerId = project.CompanyCustomer.Id,
-                CompanyPerformerId = project.CompanyPerformer.Id,
-                ProjectChiefId = project.ProjectChief.Id,
-                StartDate = project.StartDate,
-                CloseDate = project.CloseDate,
-                Priority = project.Priority,
-                Comment = project.Comment
-            };
-            return model;
+            var project = PService.Find(Id);
+            ContextModel model = CreateModel(project);
+            return View(model);
         }
 
         [HttpGet]
@@ -151,7 +107,7 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Edit() called Get");
             logger.Info("Id: " + Id);
 
-            var project = Context.Projects.FirstOrDefault(p => p.Id == Id);
+            var project = PService.Find(Id);
             var model = CreateModel(project);
             return View(model);
         }
@@ -191,6 +147,100 @@ namespace ProjectBase.Web.Controllers
                 Context.SaveChanges();
             }
             return RedirectToAction("Details", new { Id = project.Id });
+        }
+
+        private static ContextModel CreateModel(ProjectDTO project)
+        {
+            var projectModel = new ContextModel
+            {
+                Project = new ProjectDTO
+                {
+                    Id = project.Id,
+                    Name = project.Name,
+                    CompanyCustomer = project.CompanyCustomer,
+                    CompanyPerformer = project.CompanyPerformer,
+                    ProjectChief = project.ProjectChief,
+                    StartDate = project.StartDate,
+                    CloseDate = project.CloseDate,
+                    Priority = project.Priority,
+                    Comment = project.Comment
+                }
+            };
+            return projectModel;
+        }
+
+        public JsonResult DeleteParticipant(Guid employeeId, Guid projectId)
+        {
+            logger.Info("DeleteParticipant() called");
+            logger.Debug("employeeId = " + employeeId);
+            logger.Debug("projectId = " + projectId);
+
+            var employee = Context.Employees.FirstOrDefault(e => e.Id == employeeId);
+            var project = Context.Projects.FirstOrDefault(p => p.Id == projectId);
+
+            var participant = Context.Participants.Where(p => p.Project.Id == projectId).FirstOrDefault(e => e.Employee.Id == employeeId);
+            logger.Debug("participant.Employee.Id = " + participant.Employee.Id);
+            logger.Debug("participant.Project.Id = " + participant.Project.Id);
+            logger.Debug("participant.Id = " + participant.Id);
+
+            Context.Participants.Remove(participant);
+            Context.SaveChanges();
+            logger.Info("participant removed");
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AddParticipant(Guid employeeId, Guid projectId)
+        {
+            logger.Info("AddParticipant() called");
+            logger.Debug("id = " + employeeId);
+            logger.Debug("projectId = " + projectId);
+
+            var employee = Context.Employees.FirstOrDefault(e => e.Id == employeeId);
+            var project = Context.Projects.FirstOrDefault(p => p.Id == projectId);
+
+            var participant = new ProjectParticipantEntity
+            {
+                Employee = employee,
+                Project = project
+            };
+            participant.FillFieldsOnCreate();
+            Context.Participants.Add(participant);
+            Context.SaveChanges();
+            logger.Info("participant added");
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetParticipants(Guid projectId)
+        {
+            logger.Info("GetParticipants() called");
+            logger.Debug("projectId = " + projectId);
+
+            var participants = Context.Participants.Where(p => p.Project.Id == projectId).ToList();
+
+            if (participants != null)
+            {
+                logger.Info(participants.Count());
+
+                List<ParticipantsJsonModel> participantsList = participants
+                    .Select(
+                        entity =>
+                        new ParticipantsJsonModel
+                        {
+                            id = entity.Employee.Id.ToString(),
+                            name = entity.Employee.GetFullName(),
+                        })
+                    .ToList();
+                return Json(participantsList.ToArray(), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                logger.Info("нет участников");
+
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

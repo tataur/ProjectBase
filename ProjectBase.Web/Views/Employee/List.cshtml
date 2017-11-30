@@ -1,47 +1,49 @@
-﻿@model ProjectBase.Web.Models.Employee.EmployeeListModel
+﻿@model ProjectBase.Web.Models.ContextModel
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
 
-<h2>Сотрудники</h2>
+    <h2>Сотрудники</h2>
 
-<p>
-    @Html.ActionLink("Создать", "Create")
-</p>
+    <p>
+        @Html.ActionLink("Создать", "Create")
+    </p>
 
-@if(Model.Employees != null) { 
-<table class="table">
-    <tr>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Отчество</th>
-        <th>Должность</th>
-    </tr>
+    @if (Model.Employees != null)
+    {
+        <table class="table">
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Должность</th>
+            </tr>
 
-@foreach (var item in Model.Employees) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.SecondName, "Details", new { Id=item.Id })
-        </td>
-        <td>
-            @Html.ActionLink(item.FirstName, "Details", new { Id = item.Id })
-        </td>
-        <td>
-            @Html.ActionLink(item.Patronymic, "Details", new { Id = item.Id })
-        </td>
-        <td>
-            @if (item.IsChief)
+            @foreach (var item in Model.Employees)
             {
-                @:Руководитель
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.SecondName, "Details", new { Id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.FirstName, "Details", new { Id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Patronymic, "Details", new { Id = item.Id })
+                    </td>
+                    <td>
+                        @if (item.IsChief)
+                        {
+                            @:Руководитель
             }
-            else
-            {
-                @:Рабочий
+                        else
+                        {
+                            @:Рабочий
             }
-        </td>
-    </tr>
-}
+                    </td>
+                </tr>
+            }
 
-</table>
-}
+        </table>
+    }
