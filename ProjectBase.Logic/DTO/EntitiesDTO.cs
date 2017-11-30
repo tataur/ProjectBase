@@ -1,11 +1,6 @@
 ﻿using ProjectBase.DAL.DBContext;
-using ProjectBase.DAL.Entities.Company;
-using ProjectBase.DAL.Entities.Employee;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectBase.Logic.DTO
 {
@@ -57,6 +52,7 @@ namespace ProjectBase.Logic.DTO
 
     public class ParticipantDTO
     {
+        public Guid Id { get; set; }
         public EmployeeDTO Employee { get; set; }
         public ProjectDTO Project { get; set; }
     }

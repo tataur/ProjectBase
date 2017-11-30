@@ -4,8 +4,6 @@ using ProjectBase.Logic.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectBase.Logic.Services
 {
@@ -15,14 +13,14 @@ namespace ProjectBase.Logic.Services
 
         public List<ProjectDTO> GetAll()
         {
-            List<ProjectEntity> projects = Context.Projects.ToList();
-            List<ProjectDTO> pr = new List<ProjectDTO>();
-            foreach (var item in projects)
+            var entities = Context.Projects.ToList();
+            var projectsDTO = new List<ProjectDTO>();
+            foreach (var item in entities)
             {
-                var pro = CreateProjectDTO(item);
-                pr.Add(pro);
+                var project = CreateProjectDTO(item);
+                projectsDTO.Add(project);
             }
-            return pr;
+            return projectsDTO;
         }
 
         public ProjectDTO Find(Guid Id)
@@ -43,9 +41,9 @@ namespace ProjectBase.Logic.Services
             {
                 Id = item.Id,
                 Name = item.Name,
-                CompanyCustomer = item.CompanyCustomer,
-                CompanyPerformer = item.CompanyPerformer,
-                ProjectChief = item.ProjectChief,
+                CompanyCustomer = companyCustomer,
+                CompanyPerformer = companyPerformer,
+                ProjectChief = projectChief,
                 StartDate = item.StartDate,
                 CloseDate = item.CloseDate,
                 Priority = item.Priority,
@@ -60,10 +58,15 @@ namespace ProjectBase.Logic.Services
         {
             var project = Context.Projects.FirstOrDefault(e => e.Id == item.Id);
 
+            var companyCustomer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyCustomer.Id);
+            var companyPerformer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyPerformer.Id);
+            var projectChief = Context.Employees.FirstOrDefault(c => c.Id == item.ProjectChief.Id);
+
+            project.Id = item.Id;
             project.Name = item.Name;
-            project.CompanyCustomer = item.CompanyCustomer;
-            project.CompanyPerformer = item.CompanyPerformer;
-            project.ProjectChief = item.ProjectChief;
+            project.CompanyCustomer = companyCustomer;
+            project.CompanyPerformer = companyPerformer;
+            project.ProjectChief = projectChief;
             project.StartDate = item.StartDate;
             project.CloseDate = item.CloseDate;
             project.Priority = item.Priority;
@@ -76,20 +79,42 @@ namespace ProjectBase.Logic.Services
         {
             var project = Find(Id);
             var entity = Context.Projects.FirstOrDefault(e => e.Id == project.Id);
+
             Context.Projects.Remove(entity);
             Context.SaveChanges();
         }
 
-
         public ProjectDTO CreateProjectDTO(ProjectEntity entity)
         {
+            var companyCustomer = new CompanyDTO
+            {
+                Id = entity.CompanyCustomer.Id,
+                Name = entity.CompanyCustomer.Name
+            };
+
+            var companyPerformer = new CompanyDTO
+            {
+                Id = entity.CompanyPerformer.Id,
+                Name = entity.CompanyPerformer.Name
+            };
+
+            var projectChief = new EmployeeDTO
+            {
+                Id = entity.ProjectChief.Id,
+                FirstName = entity.ProjectChief.FirstName,
+                SecondName = entity.ProjectChief.SecondName,
+                Patronymic = entity.ProjectChief.Patronymic,
+                Email = entity.ProjectChief.Email,
+                IsChief = entity.ProjectChief.IsChief
+            };
+
             var project = new ProjectDTO
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                CompanyCustomer = entity.CompanyCustomer,
-                CompanyPerformer = entity.CompanyPerformer,
-                ProjectChief = entity.ProjectChief,
+                CompanyCustomer = companyCustomer,
+                CompanyPerformer = companyPerformer,
+                ProjectChief = projectChief,
                 StartDate = entity.StartDate,
                 CloseDate = entity.CloseDate,
                 Priority = entity.Priority,

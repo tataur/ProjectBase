@@ -1,4 +1,4 @@
-﻿@model ProjectBase.Web.Models.Project.ProjectDetailsModel
+﻿@model ProjectBase.Web.Models.ContextModel
 
 @{
     ViewBag.Title = "Details";
@@ -12,67 +12,67 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Project.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Project.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyCustomer)
+            @Html.DisplayNameFor(model => model.Project.CompanyCustomer.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyCustomer)
+            @Html.DisplayFor(model => model.Project.CompanyCustomer.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyPerformer)
+            @Html.DisplayNameFor(model => model.Project.CompanyPerformer.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyPerformer)
+            @Html.DisplayFor(model => model.Project.CompanyPerformer.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ProjectChief)
+            @Html.DisplayNameFor(model => model.Project.ProjectChief.SecondName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ProjectChief)
+            @Html.DisplayFor(model => model.Project.ProjectChief.SecondName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Project.StartDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.Project.StartDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CloseDate)
+            @Html.DisplayNameFor(model => model.Project.CloseDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CloseDate)
+            @Html.DisplayFor(model => model.Project.CloseDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Priority)
+            @Html.DisplayNameFor(model => model.Project.Priority)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Priority)
+            @Html.DisplayFor(model => model.Project.Priority)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Comment)
+            @Html.DisplayNameFor(model => model.Project.Comment)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Comment)
+            @Html.DisplayFor(model => model.Project.Comment)
         </dd>
 
         <dt>
@@ -83,7 +83,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Project.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
@@ -93,7 +93,7 @@
         $.ajax({
             type: "POST",
             url: '/Project/GetParticipants',
-            data: { projectId: '@Model.Id' },
+            data: { projectId: '@Model.Project.Id' },
             success: function (response) {
                 console.log(response);
                 AjaxResponse(response);

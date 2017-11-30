@@ -4,8 +4,6 @@ using ProjectBase.Logic.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectBase.Logic.Services
 {
@@ -15,11 +13,12 @@ namespace ProjectBase.Logic.Services
 
         public List<EmployeeDTO> GetAll()
         {
-            List<EmployeeEntity> employees = Context.Employees.ToList();
-            List<EmployeeDTO> em = new List<EmployeeDTO>();
-            foreach (var item in employees)
+            var entities = Context.Employees.ToList();
+            var employeesDTO = new List<EmployeeDTO>();
+
+            foreach (var item in entities)
             {
-                var emp = new EmployeeDTO
+                var employee = new EmployeeDTO
                 {
                     Id = item.Id,
                     FirstName = item.FirstName,
@@ -28,15 +27,21 @@ namespace ProjectBase.Logic.Services
                     Email = item.Email,
                     IsChief = item.IsChief
                 };
-                em.Add(emp);
+                employeesDTO.Add(employee);
             }
-            return em;
+            return employeesDTO;
         }
 
         public EmployeeDTO Find(Guid Id)
         {
             var entity = Context.Employees.FirstOrDefault(e => e.Id == Id);
-            var employee = new EmployeeDTO
+            EmployeeDTO employee = CreateEmployeeDTO(entity);
+            return employee;
+        }
+
+        public EmployeeDTO CreateEmployeeDTO(EmployeeEntity entity)
+        {
+            return new EmployeeDTO
             {
                 Id = entity.Id,
                 FirstName = entity.FirstName,
@@ -45,7 +50,6 @@ namespace ProjectBase.Logic.Services
                 Email = entity.Email,
                 IsChief = entity.IsChief
             };
-            return employee;
         }
 
         public void Create(EmployeeDTO item)
@@ -65,14 +69,13 @@ namespace ProjectBase.Logic.Services
 
         public void Edit(EmployeeDTO item)
         {
-            var employee = Context.Employees.FirstOrDefault(e => e.Id == item.Id);
+            var entity = Context.Employees.FirstOrDefault(e => e.Id == item.Id);
 
-            //employee.Id = employeeDTO.Id;
-            employee.FirstName = item.FirstName;
-            employee.SecondName = item.SecondName;
-            employee.Patronymic = item.Patronymic;
-            employee.Email = item.Email;
-            employee.IsChief = item.IsChief;
+            entity.FirstName = item.FirstName;
+            entity.SecondName = item.SecondName;
+            entity.Patronymic = item.Patronymic;
+            entity.Email = item.Email;
+            entity.IsChief = item.IsChief;
 
             Context.SaveChanges();
         }
@@ -81,6 +84,7 @@ namespace ProjectBase.Logic.Services
         {
             var employee = Find(Id);
             var entity = Context.Employees.FirstOrDefault(e => e.Id == employee.Id);
+
             Context.Employees.Remove(entity);
             Context.SaveChanges();
         }

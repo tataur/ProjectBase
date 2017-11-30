@@ -1,5 +1,4 @@
-﻿@model ProjectBase.Web.Models.Project.ProjectModel
-
+﻿@model ProjectBase.Web.Models.ContextModel
 @{
     ViewBag.Title = "Create";
 }
@@ -15,18 +14,6 @@
     $(document).ready(function () {
         GetParticipants();
     });
-
-    function GetParticipants() {
-        $.ajax({
-            type: "POST",
-            url: '/Project/GetParticipants',
-            data: { projectId: '@Model.Id' },
-            success: function (response) {
-                console.log(response);
-                AjaxResponse(response);
-            }
-        });
-    }
 
     function AjaxResponse(response) {
         if (response!=0) {
@@ -88,18 +75,18 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyCustomerId, "Компания-заказчик", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.CompanyCustomer.Name, "Компания-заказчик", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("company-customer-autocomplete", "", new { type = "search", placeholder = "Выберите компанию" })
-                @Html.Hidden("CompanyCustomerId", Model.CompanyCustomerId)
+                @Html.Hidden("CompanyCustomerId", Model.Project.CompanyCustomer.Id)
             </div>
         </div>
         <script>
@@ -108,10 +95,10 @@
         </script>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CompanyPerformerId, "Компания-исполнитель", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.CompanyPerformer.Name, "Компания-исполнитель", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("company-performer-autocomplete", "", new { type = "search", placeholder = "Выберите компанию" })
-                @Html.Hidden("CompanyPerformerId", Model.CompanyPerformerId)
+                @Html.Hidden("CompanyPerformerId", Model.Project.CompanyPerformer.Id)
             </div>
         </div>
         <script>
@@ -120,10 +107,10 @@
         </script>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectChiefId, "Руководитель", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.ProjectChief.SecondName, "Руководитель", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("project-chief-autocomplete", "", new { type = "search", placeholder = "Выберите сотрудника" })
-                @Html.Hidden("ProjectChiefId", Model.ProjectChiefId)
+                @Html.Hidden("ProjectChiefId", Model.Project.ProjectChief.Id)
             </div>
         </div>
         <script>
@@ -156,7 +143,7 @@
                     url: '/Project/AddParticipant',
                     data: {
                         employeeId: $('#PartId').val(),
-                        projectId: '@Model.Id'
+                        projectId: '@Model.Project.Id'
                     },
                     success: function (response) {
                         console.log(response);
@@ -170,34 +157,34 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Project.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Project.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CloseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.CloseDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CloseDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CloseDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Project.CloseDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Project.CloseDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Priority, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Project.Priority, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Project.Priority, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Project.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Project.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Project.Comment, "", new { @class = "text-danger" })
             </div>
         </div>
 

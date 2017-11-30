@@ -1,4 +1,4 @@
-﻿@model ProjectBase.Web.Models.Project.ProjectListModel
+﻿@model ProjectBase.Web.Models.ContextModel
 
 @{
     ViewBag.Title = "List";
@@ -10,7 +10,7 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-<div>
+@*<div>
     @using (Html.BeginForm("List", "Project", FormMethod.Get))
     {
         <div>
@@ -26,7 +26,7 @@
             </div>
         </div>
     }
-</div>
+</div>*@
 
 
 <p>
@@ -48,13 +48,13 @@
                 @Html.ActionLink(item.Name, "Details", new { Id = item.Id })
             </td>
             <td>
-                @Html.ActionLink(item.CompanyCustomer.Name, "Details", "Company", new { Id = item.CompanyCustomer.Id }, null)
+                @item.CompanyCustomer.Name
             </td>
             <td>
-                @Html.ActionLink(item.CompanyPerformer.Name, "Details", "Company", new { Id = item.CompanyPerformer.Id }, null)
+                @item.CompanyPerformer.Name
             </td>
             <td>
-                @Html.ActionLink(item.ProjectChief.GetFullName(), "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
+                @Html.ActionLink(item.ProjectChief.SecondName, "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
             </td>
         </tr>
     }

@@ -15,16 +15,13 @@ namespace ProjectBase.DAL.Entities.Employee
 
         public string GetFullName()
         {
-            if (string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(SecondName) && string.IsNullOrWhiteSpace(Patronymic))
+            if (string.IsNullOrWhiteSpace(FirstName) 
+                && string.IsNullOrWhiteSpace(SecondName) 
+                && string.IsNullOrWhiteSpace(Patronymic))
             {
                 return "Человек без имени";
             }
             return FirstName + " " + SecondName + " " + Patronymic;
-        }
-
-        public static explicit operator EmployeeEntity(List<EmployeeEntity> v)
-        {
-            throw new NotImplementedException();
         }
     }
 }

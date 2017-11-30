@@ -49,9 +49,12 @@
   <ItemGroup>
     <Compile Include="DTO\EntitiesDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\ProjectParticipantsService.cs" />
     <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\TestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectBase.DAL\ProjectBase.DAL.csproj">
