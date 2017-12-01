@@ -33,17 +33,13 @@ namespace ProjectBase.Logic.Services
 
         public void Create(ProjectDTO item)
         {
-            var companyCustomer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyCustomer.Id);
-            var companyPerformer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyPerformer.Id);
-            var projectChief = Context.Employees.FirstOrDefault(c => c.Id == item.ProjectChief.Id);
-
             var project = new ProjectEntity
             {
                 Id = item.Id,
                 Name = item.Name,
-                CompanyCustomer = companyCustomer,
-                CompanyPerformer = companyPerformer,
-                ProjectChief = projectChief,
+                CompanyCustomerId = item.CompanyCustomer.Id,
+                CompanyPerformerId = item.CompanyPerformer.Id,
+                ProjectChiefId = item.ProjectChief.Id,
                 StartDate = item.StartDate,
                 CloseDate = item.CloseDate,
                 Priority = item.Priority,
@@ -58,15 +54,11 @@ namespace ProjectBase.Logic.Services
         {
             var project = Context.Projects.FirstOrDefault(e => e.Id == item.Id);
 
-            var companyCustomer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyCustomer.Id);
-            var companyPerformer = Context.Companies.FirstOrDefault(c => c.Id == item.CompanyPerformer.Id);
-            var projectChief = Context.Employees.FirstOrDefault(c => c.Id == item.ProjectChief.Id);
-
             project.Id = item.Id;
             project.Name = item.Name;
-            project.CompanyCustomer = companyCustomer;
-            project.CompanyPerformer = companyPerformer;
-            project.ProjectChief = projectChief;
+            project.CompanyCustomerId = item.CompanyCustomer.Id;
+            project.CompanyPerformerId = item.CompanyPerformer.Id;
+            project.ProjectChiefId = item.ProjectChief.Id;
             project.StartDate = item.StartDate;
             project.CloseDate = item.CloseDate;
             project.Priority = item.Priority;
@@ -86,26 +78,29 @@ namespace ProjectBase.Logic.Services
 
         public ProjectDTO CreateProjectDTO(ProjectEntity entity)
         {
+            var companyCustomerEntity = Context.Companies.FirstOrDefault(c => c.Id == entity.CompanyCustomerId);
             var companyCustomer = new CompanyDTO
             {
-                Id = entity.CompanyCustomer.Id,
-                Name = entity.CompanyCustomer.Name
+                Id = companyCustomerEntity.Id,
+                Name = companyCustomerEntity.Name
             };
 
+            var companyPerformerEntity = Context.Companies.FirstOrDefault(c => c.Id == entity.CompanyPerformerId);
             var companyPerformer = new CompanyDTO
             {
-                Id = entity.CompanyPerformer.Id,
-                Name = entity.CompanyPerformer.Name
+                Id = companyPerformerEntity.Id,
+                Name = companyPerformerEntity.Name
             };
 
+            var projectChiefEntity = Context.Employees.FirstOrDefault(c => c.Id == entity.ProjectChiefId);
             var projectChief = new EmployeeDTO
             {
-                Id = entity.ProjectChief.Id,
-                FirstName = entity.ProjectChief.FirstName,
-                SecondName = entity.ProjectChief.SecondName,
-                Patronymic = entity.ProjectChief.Patronymic,
-                Email = entity.ProjectChief.Email,
-                IsChief = entity.ProjectChief.IsChief
+                Id = projectChiefEntity.Id,
+                FirstName = projectChiefEntity.FirstName,
+                SecondName = projectChiefEntity.SecondName,
+                Patronymic = projectChiefEntity.Patronymic,
+                Email = projectChiefEntity.Email,
+                IsChief = projectChiefEntity.IsChief
             };
 
             var project = new ProjectDTO

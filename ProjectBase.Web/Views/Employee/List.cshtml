@@ -1,49 +1,55 @@
-﻿@model ProjectBase.Web.Models.ContextModel
+﻿@model ProjectBase.Web.Models.EmployeeIndexViewModel
+@using ProjectBase.Web.Helpers
 
-    @{
-        ViewBag.Title = "Index";
-    }
+@{
+    ViewBag.Title = "Index";
+}
 
-    <h2>Сотрудники</h2>
+<h2>Сотрудники</h2>
 
-    <p>
-        @Html.ActionLink("Создать", "Create")
-    </p>
+<p>
+    @Html.ActionLink("Создать", "Create")
+</p>
 
-    @if (Model.Employees != null)
-    {
-        <table class="table">
+@if (Model.Employees != null)
+{
+    <table class="table">
+        <tr>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Должность</th>
+        </tr>
+
+        @foreach (var item in Model.Employees)
+        {
             <tr>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th>Должность</th>
+                <td>
+                    @Html.ActionLink(item.SecondName, "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink(item.FirstName, "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink(item.Patronymic, "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @if (item.IsChief)
+                    {
+                        @:Руководитель
+            }
+                    else
+                    {
+                        @:Рабочий
+            }
+                </td>
             </tr>
+        }
 
-            @foreach (var item in Model.Employees)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.SecondName, "Details", new { Id = item.Id })
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.FirstName, "Details", new { Id = item.Id })
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.Patronymic, "Details", new { Id = item.Id })
-                    </td>
-                    <td>
-                        @if (item.IsChief)
-                        {
-                            @:Руководитель
-            }
-                        else
-                        {
-                            @:Рабочий
-            }
-                    </td>
-                </tr>
-            }
+    </table>
+}
 
-        </table>
-    }
+<br />
+<div class="btn-group">
+    @Html.PageLinks(Model.PageModel, x => Url.Action("List", new { page = x }))
+</div>

@@ -5,7 +5,6 @@ using ProjectBase.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProjectBase.Web.Controllers
@@ -15,60 +14,93 @@ namespace ProjectBase.Web.Controllers
         private static Logger logger = LogManager.GetLogger("Projects");
         private readonly ProjectService PService = new ProjectService();
         private readonly EmployeeService EService = new EmployeeService();
+        private readonly CompanyService CService = new CompanyService();
         private readonly ProjectParticipantsService PartService = new ProjectParticipantsService();
 
         // GET: Employee
-        public ActionResult Index()
+        public ActionResult Index(Guid? customer, Guid? performer, int? priority, int page = 1)
         {
-            return List(null, null, null);
+            return List(customer, performer, priority, page);
         }
 
-        //public static object ListParams(ProjectListModel model, int pageNum, string sf = null, string sd = null)
-        //{
-        //    return new
-        //    {
-        //        page = pageNum,
-        //        search = model.SearchString,
-        //        fromDate = model.FromDate,
-        //        toDate = model.ToDate,
-        //        sf = sf ?? model.SortField,
-        //        sd = sd ?? model.SortDir,
-        //    };
-        //}
-
-        public ActionResult List(string search, string fromDate, string toDate, string sf = "cdate", string sd = "desc", bool showDeleted = false)
+        public ActionResult List(Guid? customer, Guid? performer, int? priority, int page = 1)
         {
-            var q = PService.GetAll();
+            logger.Info("List() called");
+            logger.Info("customer", customer);
+            logger.Info("performer", performer);
+            logger.Info("priority", priority);
 
-            // search
-            //if (!string.IsNullOrWhiteSpace(search))
-            //{
-            //    q = from e in q
-            //        where e.Name.Contains(search)
-            //            || e.CompanyCustomer.Name.Contains(search)
-            //            || e.CompanyPerformer.Name.Contains(search)
-            //            || e.ProjectChief.FirstName.Contains(search)
-            //            || e.ProjectChief.SecondName.Contains(search)
-            //            || e.ProjectChief.Patronymic.Contains(search)
-            //            || e.Priority.ToString().Contains(search)
-            //        select e;
-            //}
+            int pageItems = 10;
 
-            return View("List", new ContextModel
+            IQueryable<ProjectDTO> q = PService.GetAll().AsQueryable();
+            logger.Debug("q.Count(): " + q.Count());
+
+            List<CompanyDTO> customers = CService.GetAll().ToList();
+            logger.Info("customers.Count() = ", customers.Count());
+
+            List<CompanyDTO> performers = CService.GetAll().ToList();
+            logger.Info("performers.Count() = ", performers.Count());
+
+            customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
+
+            if (customer != null && customer != Guid.Empty)
             {
-                Projects = q.ToList()
+                q = q.Where(p => p.CompanyCustomer.Id == customer);
+            }
+
+            performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
+
+            if (performer != null && performer != Guid.Empty)
+            {
+                q = q.Where(p => p.CompanyPerformer.Id == performer);
+            }
+
+            var qPages = q.Skip((page - 1) * pageItems).Take(pageItems);
+            PageModel pageModel = new PageModel { CurrentPage = page, PageItems = pageItems, TotalItems = q.Count() };
+
+            return View("List", new ProjectIndexViewModel
+            {
+                Projects = q.ToList(),
+                PageModel = pageModel,
+                Customers = new SelectList(customers, "Id", "Name"),
             });
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new ContextModel());
+            List<CompanyDTO> customers = CService.GetAll().ToList();
+            logger.Info("customers.Count() = ", customers.Count());
+            customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
+
+            List<CompanyDTO> performers = CService.GetAll().ToList();
+            logger.Info("performers.Count() = ", performers.Count());
+            performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
+
+            List<EmployeeDTO> chiefs = EService.GetAll().Where(p=>p.IsChief == true).ToList();
+            logger.Info("chiefs.Count() = ", chiefs.Count());
+            chiefs.Insert(0, new EmployeeDTO { SecondName = "Выберите руководителся", Id = Guid.Empty });
+
+            return View(new ProjectCreateModel
+            {
+                Project = new ProjectDTO(),
+                Customers = new SelectList(customers, "Id", "Name"),
+                Performers = new SelectList(performers, "Id", "Name") ,
+                Chiefs = new SelectList(chiefs, "Id", "SecondName")
+            });
         }
 
         [HttpPost]
         public ActionResult Create(ContextModel model)
         {
+            logger.Info(model.Project.Id);
+            logger.Info(model.Project.Name);
+            logger.Info(model.Project.CompanyCustomer.Id);
+            logger.Info(model.Project.CompanyPerformer.Id);
+            logger.Info(model.Project.ProjectChief.Id);
+            logger.Info(model.Project.Priority);
+            logger.Info(model.Project.Comment);
+
             if (ModelState.IsValid)
             {
                 PService.Create(model.Project);
@@ -76,21 +108,6 @@ namespace ProjectBase.Web.Controllers
 
             return RedirectToAction("Index");
         }
-
-        //private static string BuildParticipantIdsJson(List<ProjectParticipantEntity> participants)
-        //{
-        //    var ids = new ParticipantsJson();
-
-        //    foreach (ProjectParticipantEntity participant in participants)
-        //    {
-        //        ids.Participants.Add(new ParticipantJson()
-        //        {
-        //            EmployeeId = participant.Employee.Id.ToString(),
-        //        });
-        //    }
-        //    var idsJson = JsonConvert.SerializeObject(ids);
-        //    return idsJson;
-        //}
 
         public ActionResult Details(Guid Id)
         {
@@ -109,8 +126,25 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Id: " + Id);
 
             var project = PService.Find(Id);
-            var model = CreateModel(project);
-            return View(model);
+            List<CompanyDTO> customers = CService.GetAll().ToList();
+            logger.Info("customers.Count() = ", customers.Count());
+            customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
+
+            List<CompanyDTO> performers = CService.GetAll().ToList();
+            logger.Info("performers.Count() = ", performers.Count());
+            performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
+
+            List<EmployeeDTO> chiefs = EService.GetAll().Where(p => p.IsChief == true).ToList();
+            logger.Info("chiefs.Count() = ", chiefs.Count());
+            chiefs.Insert(0, new EmployeeDTO { SecondName = "Выберите руководителся", Id = Guid.Empty });
+
+            return View(new ProjectCreateModel
+            {
+                Project = project,
+                Customers = new SelectList(customers, "Id", "Name"),
+                Performers = new SelectList(performers, "Id", "Name"),
+                Chiefs = new SelectList(chiefs, "Id", "SecondName")
+            });
         }
 
         [HttpPost]
@@ -211,7 +245,6 @@ namespace ProjectBase.Web.Controllers
 
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
-
         }
     }
 }

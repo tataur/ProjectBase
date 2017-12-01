@@ -85,6 +85,12 @@ namespace ProjectBase.Logic.Services
             var employee = Find(Id);
             var entity = Context.Employees.FirstOrDefault(e => e.Id == employee.Id);
 
+            var participants = Context.Participants.Where(p => p.EmployeeId == employee.Id);
+            foreach (var item in participants)
+            {
+                Context.Participants.Remove(item);
+            }
+
             Context.Employees.Remove(entity);
             Context.SaveChanges();
         }

@@ -20,16 +20,19 @@ namespace ProjectBase.Web.Controllers
             return List();
         }
 
-        public ActionResult List()
+        public ActionResult List(int page = 1)
         {
             logger.Info("List() called");
+            int pageItems = 10;
 
-            var q = EService.GetAll();
-            logger.Debug("Employees:" + q.Count());
+            var employees = EService.GetAll();
+            var employeesPages = employees.Skip((page - 1) * pageItems).Take(pageItems);
+            PageModel pageModel = new PageModel { CurrentPage = page, PageItems = pageItems, TotalItems = employees.Count() };
 
-            return View("List", new ContextModel
+            return View("List", new EmployeeIndexViewModel
             {
-                Employees = q.ToList()
+                Employees = employeesPages.ToList(),
+                PageModel = pageModel
             });
         }
 
@@ -44,7 +47,7 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Create(ContextModel model)
         {
             logger.Info("Create() called Post");
-            LogCreateModel(model);
+
             if (ModelState.IsValid)
             {
                 EService.Create(model.Employee);
@@ -80,7 +83,6 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Edit(ContextModel model)
         {
             logger.Info("Edit() called Post");
-            LogCreateModel(model);
 
             if (ModelState.IsValid)
             {
@@ -100,7 +102,14 @@ namespace ProjectBase.Web.Controllers
         [HttpPost]
         public ActionResult Delete(ContextModel model)
         {
-            EService.Delete(model.Employee.Id);
+            try
+            {
+                EService.Delete(model.Employee.Id);
+            }
+            catch(Exception ex)
+            {
+                return View("ErrorView", new ErrorModel { Title = "Невозможно удалить", Message = ex.Message });
+            }
             return RedirectToAction("Index");
         }
 
@@ -122,16 +131,6 @@ namespace ProjectBase.Web.Controllers
             logger.Info("CreateEmployeeModel: employeeModel.Employee.Id = " + employeeModel.Employee.Id);
 
             return employeeModel;
-        }
-
-        private static void LogCreateModel(ContextModel model)
-        {
-            logger.Debug("model.Id: " + model.Employee.Id);
-            logger.Debug("model.FirstName: " + model.Employee.FirstName);
-            logger.Debug("model.SecondName: " + model.Employee.SecondName);
-            logger.Debug("model.Patronymic: " + model.Employee.Patronymic);
-            logger.Debug("model.Email: " + model.Employee.Email);
-            logger.Debug("model.IsChief: " + model.Employee.IsChief);
         }
     }
 }

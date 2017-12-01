@@ -137,8 +137,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PagingHelper.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\JsonModels.cs" />
     <Compile Include="Models\ContextModel.cs" />
+    <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\ProjectBaseModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,7 +160,7 @@
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Employee\Delete.cshtml" />
-    <Content Include="Views\Employee\Error.cshtml" />
+    <Content Include="Views\Employee\ErrorView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

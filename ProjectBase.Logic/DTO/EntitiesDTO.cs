@@ -29,6 +29,18 @@ namespace ProjectBase.Logic.DTO
         public string Patronymic { get; set; }
         public string Email { get; set; }
         public bool IsChief { get; set; }
+
+
+        public string GetFullName()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName)
+                && string.IsNullOrWhiteSpace(SecondName)
+                && string.IsNullOrWhiteSpace(Patronymic))
+            {
+                return "Человек без имени";
+            }
+            return FirstName + " " + SecondName + " " + Patronymic;
+        }
     }
 
     public class CompanyDTO

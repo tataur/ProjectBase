@@ -22,15 +22,7 @@ namespace ProjectBase.Logic.Services
 
             foreach (var item in entities)
             {
-                var employee = EService.CreateEmployeeDTO(item.Employee);
-                var project = PService.CreateProjectDTO(item.Project);
-
-                var participant = new ParticipantDTO
-                {
-                    Id = item.Id,
-                    Employee = employee,
-                    Project = project
-                };
+                ParticipantDTO participant = CreateParticipantDTO(item);
                 participantsDTO.Add(participant);
             }
             return participantsDTO;
@@ -39,14 +31,23 @@ namespace ProjectBase.Logic.Services
         public ParticipantDTO Find(Guid Id)
         {
             var entity = Context.Participants.FirstOrDefault(e => e.Id == Id);
-            var employee = EService.CreateEmployeeDTO(entity.Employee);
-            var project = PService.CreateProjectDTO(entity.Project);
+            ParticipantDTO participant = CreateParticipantDTO(entity);
+            return participant;
+        }
+
+        private ParticipantDTO CreateParticipantDTO(ProjectParticipantEntity entity)
+        {
+            var employeeEntity = Context.Employees.FirstOrDefault(e => e.Id == entity.EmployeeId);
+            var employeeDTO = EService.CreateEmployeeDTO(employeeEntity);
+
+            var projectEntity = Context.Projects.FirstOrDefault(c => c.Id == entity.ProjectId);
+            var projectDTO = PService.CreateProjectDTO(projectEntity);
 
             var participant = new ParticipantDTO
             {
                 Id = entity.Id,
-                Employee = employee,
-                Project = project
+                Employee = employeeDTO,
+                Project = projectDTO
             };
             return participant;
         }
@@ -58,8 +59,8 @@ namespace ProjectBase.Logic.Services
 
             var participant = new ProjectParticipantEntity
             {
-                Employee = employeeEntity,
-                Project = projectEntity
+                EmployeeId = employeeEntity.Id,
+                ProjectId = projectEntity.Id
             };
             participant.FillFieldsOnCreate();
             Context.Participants.Add(participant);

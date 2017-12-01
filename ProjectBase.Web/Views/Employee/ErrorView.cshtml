@@ -1,0 +1,11 @@
+﻿@model ProjectBase.Web.Models.ErrorModel
+
+@{
+    ViewBag.Title = "Ошибка: " + Model.Title;
+}
+
+<div class="content">
+    <h2>@Model.Title</h2>
+    <h4>@Model.Message</h4>
+</div>
+

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBase.DAL.Entities.Employee
 {
@@ -12,16 +10,5 @@ namespace ProjectBase.DAL.Entities.Employee
         public string Patronymic { get; set; }
         public string Email { get; set; }
         public bool IsChief { get; set; }
-
-        public string GetFullName()
-        {
-            if (string.IsNullOrWhiteSpace(FirstName) 
-                && string.IsNullOrWhiteSpace(SecondName) 
-                && string.IsNullOrWhiteSpace(Patronymic))
-            {
-                return "Человек без имени";
-            }
-            return FirstName + " " + SecondName + " " + Patronymic;
-        }
     }
 }

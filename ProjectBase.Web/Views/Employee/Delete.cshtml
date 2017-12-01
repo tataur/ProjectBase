@@ -1,7 +1,7 @@
 ﻿@model ProjectBase.Web.Models.ContextModel
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление";
 }
 
 <h2>Удаление</h2>
@@ -53,8 +53,8 @@
 
         </dl>
             <div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" /> |
-                @Html.ActionLink("Back to List", "Index")
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("Назад", "Details", new { Id = Model.Employee.Id })
             </div>
     }
 </div>

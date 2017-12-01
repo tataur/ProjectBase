@@ -12,6 +12,23 @@ namespace ProjectBase.Logic.Services
     {
         private static readonly EFProjectBaseContext Context = new EFProjectBaseContext();
 
+        public List<CompanyDTO> GetAll()
+        {
+            var entities = Context.Companies.ToList();
+            var companiesDTO = new List<CompanyDTO>();
+
+            foreach (var item in entities)
+            {
+                var company = new CompanyDTO
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+                companiesDTO.Add(company);
+            }
+            return companiesDTO;
+        }
+
         public void Create(CompanyDTO item)
         {
             throw new NotImplementedException();
@@ -30,23 +47,6 @@ namespace ProjectBase.Logic.Services
         public CompanyDTO Find(Guid Id)
         {
             throw new NotImplementedException();
-        }
-
-        public List<CompanyDTO> GetAll()
-        {
-            var entities = Context.Companies.ToList();
-            var companiesDTO = new List<CompanyDTO>();
-
-            foreach (var item in entities)
-            {
-                var company = new CompanyDTO
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                };
-                companiesDTO.Add(company);
-            }
-            return companiesDTO;
         }
     }
 }

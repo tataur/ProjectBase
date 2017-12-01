@@ -1,62 +1,67 @@
-﻿@model ProjectBase.Web.Models.ContextModel
+﻿@model ProjectBase.Web.Models.ProjectIndexViewModel
+@using ProjectBase.Web.Helpers
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Проекты";
 }
 
-<h2>List</h2>
+<h2>Проекты</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Создать проект", "Create")
 </p>
 
-@*<div>
-    @using (Html.BeginForm("List", "Project", FormMethod.Get))
-    {
-        <div>
-            @Html.TextBox("search", Model.SearchString, new { placeholder = "Поиск", @class = "search-input", type = "search" })
-            <input id="submitButton" type="submit" value="Найти" class="btn btn-default" />
-        </div>
-        <div>
-            <div>
-                <div class="filter-div left-al">
-                    @Html.TextBox("fromDate", Model.FromDate, new { placeholder="Дата начала" })
-                    @Html.TextBox("toDate", Model.ToDate, new { placeholder = "Дата окончания" })
-                </div>
-            </div>
-        </div>
-    }
-</div>*@
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Заказчик: </label>
+        @Html.DropDownList("customer", Model.Customers as SelectList,
+                    htmlAttributes: new { @class = "form-control" })
+        
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
 
+@if (Model.Projects.Count() != 0)
+{
+    <p>
+        Найдено @Model.Projects.Count()
+    </p>
 
-<p>
-    Найдено @Model.Projects.Count:
-</p>
-
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Customer</th>
-        <th>Performer</th>
-        <th>Chief</th>
-    </tr>
-
-    @foreach (var item in Model.Projects)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.ActionLink(item.Name, "Details", new { Id = item.Id })
-            </td>
-            <td>
-                @item.CompanyCustomer.Name
-            </td>
-            <td>
-                @item.CompanyPerformer.Name
-            </td>
-            <td>
-                @Html.ActionLink(item.ProjectChief.SecondName, "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
-            </td>
+            <th>Название</th>
+            <th>Заказчик</th>
+            <th>Исполнитель</th>
+            <th>Руководитель</th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model.Projects)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { Id = item.Id })
+                </td>
+                <td>
+                    @item.CompanyCustomer.Name
+                </td>
+                <td>
+                    @item.CompanyPerformer.Name
+                </td>
+                <td>
+                    @Html.ActionLink(item.ProjectChief.SecondName, "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <br />
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageModel, x => Url.Action("List", new { page = x }))
+    </div>
+}
+else
+{
+    @:нет проектов
+}
+
