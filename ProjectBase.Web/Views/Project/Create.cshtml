@@ -5,7 +5,7 @@
 
 <h2>Создание проекта</h2>
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
@@ -13,13 +13,13 @@
 
 <script>
     $(document).ready(function () {
-        GetParticipants();
+        GetWorkers();
     });
 
     function AjaxResponse(response) {
         if (response != 0) {
             for (var i = 0; i < response.length; i++) {
-                $("#participants").append("<li>" + response[i].name + "</li>")
+                $("#workers").append("<li>" + response[i].name + "</li>")
             }
         }
     }
@@ -98,12 +98,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад к списку", "Index")
 </div>

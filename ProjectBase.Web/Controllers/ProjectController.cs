@@ -12,47 +12,52 @@ namespace ProjectBase.Web.Controllers
     public class ProjectController : Controller
     {
         private static Logger logger = LogManager.GetLogger("Projects");
-        private readonly ProjectService PService = new ProjectService();
-        private readonly EmployeeService EService = new EmployeeService();
-        private readonly CompanyService CService = new CompanyService();
-        private readonly ProjectParticipantsService PartService = new ProjectParticipantsService();
 
-        // GET: Employee
-        public ActionResult Index(Guid? customer, Guid? performer, int? priority, int page = 1)
+        ProjectService service;
+
+        public ProjectController()
         {
-            return List(customer, performer, priority, page);
+            service = new ProjectService();
         }
 
-        public ActionResult List(Guid? customer, Guid? performer, int? priority, int page = 1)
+        public ProjectController(ProjectService serv)
         {
-            logger.Info("List() called");
-            logger.Info("customer", customer);
-            logger.Info("performer", performer);
-            logger.Info("priority", priority);
+            service = serv;
+        }
 
+        public ActionResult Index(Guid? customer, Guid? performer, Guid? chief, int? priority, int page = 1)
+        {
+            return List(customer, performer, chief, priority, page);
+        }
+
+        public ActionResult List(Guid? customer, Guid? performer, Guid? chief, int? priority, int page = 1)
+        {
             int pageItems = 10;
 
-            IQueryable<ProjectDTO> q = PService.GetAll().AsQueryable();
-            logger.Debug("q.Count(): " + q.Count());
+            IQueryable<ProjectDTO> q = service.GetAll().AsQueryable();
+            List<CompanyDTO> customers = service.GetCompanies().ToList();
+            List<CompanyDTO> performers = service.GetCompanies().ToList();
+            List<EmployeeDTO> chiefs = service.GetEmployees().Where(c => c.IsChief == true).ToList();
 
-            List<CompanyDTO> customers = CService.GetAll().ToList();
-            logger.Info("customers.Count() = ", customers.Count());
-
-            List<CompanyDTO> performers = CService.GetAll().ToList();
-            logger.Info("performers.Count() = ", performers.Count());
-
-            customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
+            customers.Insert(0, new CompanyDTO { Name = "Все", Id = Guid.Empty });
 
             if (customer != null && customer != Guid.Empty)
             {
                 q = q.Where(p => p.CompanyCustomer.Id == customer);
             }
 
-            performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
+            performers.Insert(0, new CompanyDTO { Name = "Все", Id = Guid.Empty });
 
             if (performer != null && performer != Guid.Empty)
             {
                 q = q.Where(p => p.CompanyPerformer.Id == performer);
+            }
+
+            chiefs.Insert(0, new EmployeeDTO { SecondName = "Все", Id = Guid.Empty });
+
+            if (chief != null && chief != Guid.Empty)
+            {
+                q = q.Where(c => c.ProjectChief.Id == chief);
             }
 
             var qPages = q.Skip((page - 1) * pageItems).Take(pageItems);
@@ -63,22 +68,23 @@ namespace ProjectBase.Web.Controllers
                 Projects = q.ToList(),
                 PageModel = pageModel,
                 Customers = new SelectList(customers, "Id", "Name"),
+                Performers = new SelectList(performers, "Id", "Name"),
+                Chiefs = new SelectList(chiefs, "Id", "SecondName")
             });
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            List<CompanyDTO> customers = CService.GetAll().ToList();
-            logger.Info("customers.Count() = ", customers.Count());
+            logger.Info("Create() called Get");
+
+            List<CompanyDTO> customers = service.GetCompanies().ToList();
             customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
 
-            List<CompanyDTO> performers = CService.GetAll().ToList();
-            logger.Info("performers.Count() = ", performers.Count());
+            List<CompanyDTO> performers = service.GetCompanies().ToList();
             performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
 
-            List<EmployeeDTO> chiefs = EService.GetAll().Where(p=>p.IsChief == true).ToList();
-            logger.Info("chiefs.Count() = ", chiefs.Count());
+            List<EmployeeDTO> chiefs = service.GetEmployees().Where(p=>p.IsChief == true).ToList();
             chiefs.Insert(0, new EmployeeDTO { SecondName = "Выберите руководителся", Id = Guid.Empty });
 
             return View(new ProjectCreateModel
@@ -91,19 +97,17 @@ namespace ProjectBase.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ContextModel model)
+        public ActionResult Create(ProjectModel model)
         {
-            logger.Info(model.Project.Id);
-            logger.Info(model.Project.Name);
-            logger.Info(model.Project.CompanyCustomer.Id);
-            logger.Info(model.Project.CompanyPerformer.Id);
-            logger.Info(model.Project.ProjectChief.Id);
-            logger.Info(model.Project.Priority);
-            logger.Info(model.Project.Comment);
+            logger.Info("Create() called Post");
 
             if (ModelState.IsValid)
             {
-                PService.Create(model.Project);
+                service.Create(model.Project);
+            }
+            else
+            {
+                return View("~/Views/Employee/ErrorView.cshtml", new ErrorModel { Title = "Проект не создан", Message = "" });
             }
 
             return RedirectToAction("Index");
@@ -114,8 +118,8 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Details() called");
             logger.Info("Id: " + Id);
 
-            var project = PService.Find(Id);
-            ContextModel model = CreateModel(project);
+            var project = service.Find(Id);
+            ProjectModel model = CreateModel(project);
             return View(model);
         }
 
@@ -125,17 +129,14 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Edit() called Get");
             logger.Info("Id: " + Id);
 
-            var project = PService.Find(Id);
-            List<CompanyDTO> customers = CService.GetAll().ToList();
-            logger.Info("customers.Count() = ", customers.Count());
+            var project = service.Find(Id);
+            List<CompanyDTO> customers = service.GetCompanies().ToList();
             customers.Insert(0, new CompanyDTO { Name = "Выберите заказчика", Id = Guid.Empty });
 
-            List<CompanyDTO> performers = CService.GetAll().ToList();
-            logger.Info("performers.Count() = ", performers.Count());
+            List<CompanyDTO> performers = service.GetCompanies().ToList();
             performers.Insert(0, new CompanyDTO { Name = "Выберите исполнителя", Id = Guid.Empty });
 
-            List<EmployeeDTO> chiefs = EService.GetAll().Where(p => p.IsChief == true).ToList();
-            logger.Info("chiefs.Count() = ", chiefs.Count());
+            List<EmployeeDTO> chiefs = service.GetEmployees().Where(p => p.IsChief == true).ToList();
             chiefs.Insert(0, new EmployeeDTO { SecondName = "Выберите руководителся", Id = Guid.Empty });
 
             return View(new ProjectCreateModel
@@ -148,18 +149,27 @@ namespace ProjectBase.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(ContextModel model)
+        public ActionResult Edit(ProjectModel model)
         {
             logger.Info("Edit() called Post");
             logger.Debug("model.Id: " + model.Project.Id);
 
-            PService.Edit(model.Project);
+            service.Edit(model.Project);
             return RedirectToAction("Details", new { Id = model.Project.Id });
         }
 
-        private static ContextModel CreateModel(ProjectDTO project)
+        [HttpGet]
+        public ActionResult Delete(Guid id)
         {
-            var projectModel = new ContextModel
+            var project = service.Find(id);
+            var model = CreateModel(project);
+
+            return View(model);
+        }
+
+        private static ProjectModel CreateModel(ProjectDTO project)
+        {
+            var projectModel = new ProjectModel
             {
                 Project = new ProjectDTO
                 {
@@ -176,68 +186,77 @@ namespace ProjectBase.Web.Controllers
             };
             return projectModel;
         }
-        
-        public JsonResult DeleteParticipant(Guid employeeId, Guid projectId)
+
+        public ActionResult AutocompleteSearch(string term)
         {
-            logger.Info("DeleteParticipant() called");
+            logger.Info("AutocompleteSearch");
+
+            var models = service.GetEmployees().Where(e => e.IsChief == false).Select(a => new { value = a.SecondName }).Distinct();
+            
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteWorker(Guid employeeId, Guid projectId)
+        {
+            logger.Info("DeleteWorker() called");
             logger.Debug("employeeId = " + employeeId);
             logger.Debug("projectId = " + projectId);
 
-            var employee = EService.GetAll().FirstOrDefault(e => e.Id == employeeId);
-            var project = PService.GetAll().FirstOrDefault(p => p.Id == projectId);
+            var employee = service.GetEmployees().FirstOrDefault(e => e.Id == employeeId);
+            var project = service.Find(projectId);
 
-            var participant = PartService.GetAll().Where(p => p.Project.Id == projectId).FirstOrDefault(e => e.Employee.Id == employeeId);
-            logger.Debug("participant.Employee.Id = " + participant.Employee.Id);
-            logger.Debug("participant.Project.Id = " + participant.Project.Id);
-            logger.Debug("participant.Id = " + participant.Id);
+            //var worker = service.GetAll().Where(p => p.Project.Id == projectId).FirstOrDefault(e => e.Employee.Id == employeeId);
+//            logger.Debug("participant.Employee.Id = " + worker.Employee.Id);
+  //          logger.Debug("participant.Project.Id = " + worker.Project.Id);
+    //        logger.Debug("participant.Id = " + worker.Id);
 
-            PartService.Delete(participant.Id);
+            //WService.Delete(worker.Id);
 
             logger.Info("participant removed");
 
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult AddParticipant(Guid employeeId, Guid projectId)
+        public JsonResult AddWorker(Guid employeeId, Guid projectId)
         {
-            logger.Info("AddParticipant() called");
+            logger.Info("AddWorker() called");
             logger.Debug("id = " + employeeId);
             logger.Debug("projectId = " + projectId);
 
-            var participantDTO = new ParticipantDTO
+            var workerDTO = new WorkerDTO
             {
-                Employee = EService.Find(employeeId),
-                Project = PService.Find(projectId)
+                Employee = service.GetEmployees().FirstOrDefault(e => e.Id == employeeId),
+                Project = service.Find(projectId)
             };
-            PartService.Create(participantDTO);
+            //WService.Create(workerDTO);
 
             logger.Info("participant added");
 
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetParticipants(Guid projectId)
+        public JsonResult GetWorkers(Guid projectId)
         {
-            logger.Info("GetParticipants() called");
+            logger.Info("GetWorkers() called");
             logger.Debug("projectId = " + projectId);
 
-            var participants = PartService.GetAll().Where(p => p.Project.Id == projectId).ToList();
-            logger.Debug("participants.Count() = " + participants.Count());
+            var workers = service.GetWorkers().Where(p => p.Project.Id == projectId).ToList();
+            logger.Debug("workers.Count() = " + workers.Count());
 
-            if (participants != null)
+            if (workers != null)
             {
-                logger.Info(participants.Count());
+                logger.Info(workers.Count());
 
-                List<ParticipantsJsonModel> participantsList = participants
+                List<WorkersJsonModel> workersList = workers
                     .Select(
                         entity =>
-                        new ParticipantsJsonModel
+                        new WorkersJsonModel
                         {
                             id = entity.Employee.Id.ToString(),
                             name = entity.Employee.SecondName,
                         })
                     .ToList();
-                return Json(participantsList.ToArray(), JsonRequestBehavior.AllowGet);
+                return Json(workersList.ToArray(), JsonRequestBehavior.AllowGet);
             }
             else
             {

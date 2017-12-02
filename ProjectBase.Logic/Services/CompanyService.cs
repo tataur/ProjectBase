@@ -1,20 +1,29 @@
 ﻿using ProjectBase.DAL.DBContext;
+using ProjectBase.DAL.Repositories;
 using ProjectBase.Logic.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectBase.Logic.Services
 {
     public class CompanyService : IService<CompanyDTO>
     {
-        private static readonly EFProjectBaseContext Context = new EFProjectBaseContext();
+        IUnitOfWork Database { get; set; }
+
+        public CompanyService()
+        {
+            Database = new EFUnitOfWork();
+        }
+
+        public CompanyService(IUnitOfWork unit)
+        {
+            Database = unit;
+        }
 
         public List<CompanyDTO> GetAll()
         {
-            var entities = Context.Companies.ToList();
+            var entities = Database.Companies.GetAll().ToList();
             var companiesDTO = new List<CompanyDTO>();
 
             foreach (var item in entities)

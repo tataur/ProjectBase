@@ -1,6 +1,7 @@
 ﻿using ProjectBase.DAL.DBContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectBase.Logic.DTO
 {
@@ -17,30 +18,22 @@ namespace ProjectBase.Logic.DTO
         public ProjectDTO Project { get; set; }
         public List<ProjectDTO> Projects { get; set; }
 
-        public ParticipantDTO Participant { get; set; }
-        public List<ParticipantDTO> Participants { get; set; }
+        public WorkerDTO Worker { get; set; }
+        public List<WorkerDTO> Workers { get; set; }
     }
 
     public class EmployeeDTO
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Введите фамилию")]
         public string SecondName { get; set; }
         public string Patronymic { get; set; }
+
+        [Required(ErrorMessage = "Введите email")]
         public string Email { get; set; }
         public bool IsChief { get; set; }
-
-
-        public string GetFullName()
-        {
-            if (string.IsNullOrWhiteSpace(FirstName)
-                && string.IsNullOrWhiteSpace(SecondName)
-                && string.IsNullOrWhiteSpace(Patronymic))
-            {
-                return "Человек без имени";
-            }
-            return FirstName + " " + SecondName + " " + Patronymic;
-        }
     }
 
     public class CompanyDTO
@@ -52,17 +45,27 @@ namespace ProjectBase.Logic.DTO
     public class ProjectDTO
     {
         public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Введите название")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Выберите заказчика")]
         public CompanyDTO CompanyCustomer { get; set; }
+
+        [Required(ErrorMessage = "Выберите исполнителя")]
         public CompanyDTO CompanyPerformer { get; set; }
+
+        [Required(ErrorMessage = "Выберите руководителя")]
         public EmployeeDTO ProjectChief { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime CloseDate { get; set; }
+
+        [Required(ErrorMessage = "Задайте приоритет")]
         public int Priority { get; set; }
         public string Comment { get; set; }
     }
 
-    public class ParticipantDTO
+    public class WorkerDTO
     {
         public Guid Id { get; set; }
         public EmployeeDTO Employee { get; set; }

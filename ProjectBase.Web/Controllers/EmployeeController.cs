@@ -11,9 +11,19 @@ namespace ProjectBase.Web.Controllers
     public class EmployeeController : Controller
     {
         private static Logger logger = LogManager.GetLogger("Employees");
-        private readonly EmployeeService EService = new EmployeeService();
 
-        // GET: Employee
+        EmployeeService employeeService;
+
+        public EmployeeController()
+        {
+            employeeService = new EmployeeService();
+        }
+
+        public EmployeeController(EmployeeService serv)
+        {
+            employeeService = serv;
+        }
+
         public ActionResult Index()
         {
             logger.Info("Index() called");
@@ -25,7 +35,7 @@ namespace ProjectBase.Web.Controllers
             logger.Info("List() called");
             int pageItems = 10;
 
-            var employees = EService.GetAll();
+            var employees = employeeService.GetAll();
             var employeesPages = employees.Skip((page - 1) * pageItems).Take(pageItems);
             PageModel pageModel = new PageModel { CurrentPage = page, PageItems = pageItems, TotalItems = employees.Count() };
 
@@ -40,17 +50,17 @@ namespace ProjectBase.Web.Controllers
         public ActionResult Create()
         {
             logger.Info("Create() called Get");
-            return View(new ContextModel());
+            return View(new EmployeeModel());
         }
 
         [HttpPost]
-        public ActionResult Create(ContextModel model)
+        public ActionResult Create(EmployeeModel model)
         {
             logger.Info("Create() called Post");
 
             if (ModelState.IsValid)
             {
-                EService.Create(model.Employee);
+                employeeService.Create(model.Employee);
                 logger.Info("Employee added");
             }
 
@@ -62,9 +72,9 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Details() called");
             logger.Info("Id: " + Id);
 
-            var employee = EService.Find(Id);
-            logger.Info("employee.Id: " + employee.Id);
-            ContextModel model = CreateEmployeeModel(employee);
+            var employee = employeeService.Find(Id);
+            EmployeeModel model = CreateEmployeeModel(employee);
+
             return View(model);
         }
 
@@ -74,19 +84,19 @@ namespace ProjectBase.Web.Controllers
             logger.Info("Edit() called Get");
             logger.Info("Id: " + Id);
 
-            var employee = EService.Find(Id);
-            ContextModel model = CreateEmployeeModel(employee);
+            var employee = employeeService.Find(Id);
+            EmployeeModel model = CreateEmployeeModel(employee);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(ContextModel model)
+        public ActionResult Edit(EmployeeModel model)
         {
             logger.Info("Edit() called Post");
 
             if (ModelState.IsValid)
             {
-                EService.Edit(model.Employee);
+                employeeService.Edit(model.Employee);
             }
             return RedirectToAction("Details", new { Id = model.Employee.Id });
         }
@@ -94,17 +104,18 @@ namespace ProjectBase.Web.Controllers
         [HttpGet]
         public ActionResult Delete(Guid Id)
         {
-            var employee = EService.Find(Id);
-            ContextModel model = CreateEmployeeModel(employee);
+            var employee = employeeService.Find(Id);
+            EmployeeModel model = CreateEmployeeModel(employee);
+
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Delete(ContextModel model)
+        public ActionResult Delete(EmployeeModel model)
         {
             try
             {
-                EService.Delete(model.Employee.Id);
+                employeeService.Delete(model.Employee.Id);
             }
             catch(Exception ex)
             {
@@ -113,9 +124,9 @@ namespace ProjectBase.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        private static ContextModel CreateEmployeeModel(EmployeeDTO employee)
+        private static EmployeeModel CreateEmployeeModel(EmployeeDTO employee)
         {
-            var employeeModel = new ContextModel
+            var employeeModel = new EmployeeModel
             {
                 Employee = new EmployeeDTO
                 {

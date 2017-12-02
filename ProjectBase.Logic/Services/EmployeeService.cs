@@ -1,5 +1,5 @@
-﻿using ProjectBase.DAL.DBContext;
-using ProjectBase.DAL.Entities.Employee;
+﻿using ProjectBase.DAL.Entities.Employee;
+using ProjectBase.DAL.Repositories;
 using ProjectBase.Logic.DTO;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,21 @@ namespace ProjectBase.Logic.Services
 {
     public class EmployeeService : IService<EmployeeDTO>
     {
-        private static readonly EFProjectBaseContext Context = new EFProjectBaseContext();
+        IUnitOfWork Database { get; set; }
+
+        public EmployeeService()
+        {
+            Database = new EFUnitOfWork();
+        }
+
+        public EmployeeService(IUnitOfWork unit)
+        {
+            Database = unit;
+        }
 
         public List<EmployeeDTO> GetAll()
         {
-            var entities = Context.Employees.ToList();
+            var entities = Database.Employees.GetAll().ToList();
             var employeesDTO = new List<EmployeeDTO>();
 
             foreach (var item in entities)
@@ -34,7 +44,7 @@ namespace ProjectBase.Logic.Services
 
         public EmployeeDTO Find(Guid Id)
         {
-            var entity = Context.Employees.FirstOrDefault(e => e.Id == Id);
+            var entity = Database.Employees.Find(Id);
             EmployeeDTO employee = CreateEmployeeDTO(entity);
             return employee;
         }
@@ -63,13 +73,13 @@ namespace ProjectBase.Logic.Services
                 IsChief = item.IsChief
             };
             employee.FillFieldsOnCreate();
-            Context.Employees.Add(employee);
-            Context.SaveChanges();
+            Database.Employees.Create(employee);
+            Database.Save();
         }
 
         public void Edit(EmployeeDTO item)
         {
-            var entity = Context.Employees.FirstOrDefault(e => e.Id == item.Id);
+            var entity = Database.Employees.Find(item.Id);
 
             entity.FirstName = item.FirstName;
             entity.SecondName = item.SecondName;
@@ -77,22 +87,22 @@ namespace ProjectBase.Logic.Services
             entity.Email = item.Email;
             entity.IsChief = item.IsChief;
 
-            Context.SaveChanges();
+            Database.Save();
         }
 
         public void Delete(Guid Id)
         {
             var employee = Find(Id);
-            var entity = Context.Employees.FirstOrDefault(e => e.Id == employee.Id);
+            var entity = Database.Employees.Find(Id);
 
-            var participants = Context.Participants.Where(p => p.EmployeeId == employee.Id);
-            foreach (var item in participants)
+            var workers = Database.Workers.GetAll().Where(p => p.EmployeeId == employee.Id);
+            foreach (var item in workers)
             {
-                Context.Participants.Remove(item);
+                Database.Workers.Delete(item.Id);
             }
 
-            Context.Employees.Remove(entity);
-            Context.SaveChanges();
+            Database.Employees.Delete(entity.Id);
+            Database.Save();
         }
     }
 }

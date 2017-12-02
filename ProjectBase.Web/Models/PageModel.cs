@@ -15,26 +15,5 @@ namespace ProjectBase.Web.Models
             get { return (int)Math.Ceiling((decimal)TotalItems / PageItems); }
         }
     }
-    public class EmployeeIndexViewModel
-    {
-        public IEnumerable<EmployeeDTO> Employees { get; set; }
-        public PageModel PageModel { get; set; }
-    }
-
-    public class ProjectIndexViewModel
-    {
-        public IEnumerable<ProjectDTO> Projects { get; set; }
-        public PageModel PageModel { get; set; }
-        public SelectList Customers { get; set; }
-        public SelectList Performers { get; set; }
-        public SelectList Priority { get; set; }
-    }
-
-    public class ProjectCreateModel
-    {
-        public ProjectDTO Project { get; set; }
-        public SelectList Customers { get; set; }
-        public SelectList Performers { get; set; }
-        public SelectList Chiefs { get; set; }
-    }
+    
 }

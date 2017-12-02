@@ -9,7 +9,7 @@ namespace ProjectBase.DAL.DBContext
     {
         public DbSet<EmployeeEntity> Employees { get; set; }
         public DbSet<CompanyEntity> Companies { get; set; }
-        public DbSet<ProjectParticipantEntity> Participants { get; set; }
+        public DbSet<ProjectWorkerEntity> Workers { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

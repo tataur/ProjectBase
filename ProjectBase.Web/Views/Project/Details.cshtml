@@ -1,10 +1,10 @@
-﻿@model ProjectBase.Web.Models.ContextModel
+﻿@model ProjectBase.Web.Models.ProjectModel
 
 @{
     ViewBag.Title = "Детали";
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <h2>Детали</h2>
 
 <div>
@@ -74,9 +74,9 @@
         </dd>
 
         <dt>
-            Участники:
+            Работники
         </dt>
-        <dd id="participants">
+        <dd id="workers">
         </dd>
     </dl>
 </div>
@@ -90,7 +90,7 @@
     $(document).ready(function () {
         $.ajax({
             type: "POST",
-            url: '/Project/GetParticipants',
+            url: '/Project/GetWorkers',
             data: { projectId: '@Model.Project.Id' },
             success: function (response) {
                 console.log(response);
@@ -102,11 +102,11 @@
     function AjaxResponse(response) {
         if (response!=0) {
             for (var i = 0; i < response.length; i++) {
-                $("#participants").append("<li>" + response[i].name + "</li>")
+                $("#workers").append("<li>" + response[i].name + "</li>")
             }
         }
         else {
-            $("#participants").append("<li>нет участников</li>")
+            $("#workers").append("<li>нет участников</li>")
         }
     }
 </script>

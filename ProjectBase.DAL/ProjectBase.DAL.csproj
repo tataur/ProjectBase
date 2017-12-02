@@ -51,10 +51,17 @@
     <Compile Include="Entities\CommonEntity.cs" />
     <Compile Include="Entities\Company\CompanyEntity.cs" />
     <Compile Include="Entities\Employee\EmployeeEntity.cs" />
-    <Compile Include="Entities\Project\ParticipantsJson.cs" />
+    <Compile Include="Entities\Project\WorkersJson.cs" />
     <Compile Include="Entities\Project\ProjectEntity.cs" />
-    <Compile Include="Entities\Project\ProjectParticipantEntity.cs" />
+    <Compile Include="Entities\Project\ProjectWorkerEntity.cs" />
+    <Compile Include="Repositories\CompanyRepository.cs" />
+    <Compile Include="Repositories\EFUnitOfWork.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ProjectRepository.cs" />
+    <Compile Include="Repositories\WorkerRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
