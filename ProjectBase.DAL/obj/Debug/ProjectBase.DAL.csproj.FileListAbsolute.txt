@@ -14,3 +14,4 @@ C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\bin\Debug\EntityFramework.SqlSer
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csproj.CoreCompileInputs.cache
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.dll
 C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.pdb
+C:\MyFIles\prog\web\ProjectBase\ProjectBase.DAL\obj\Debug\ProjectBase.DAL.csprojResolveAssemblyReference.cache

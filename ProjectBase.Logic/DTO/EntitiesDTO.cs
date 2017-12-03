@@ -57,7 +57,13 @@ namespace ProjectBase.Logic.DTO
 
         [Required(ErrorMessage = "Выберите руководителя")]
         public EmployeeDTO ProjectChief { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CloseDate { get; set; }
 
         [Required(ErrorMessage = "Задайте приоритет")]

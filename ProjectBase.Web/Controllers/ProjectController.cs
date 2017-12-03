@@ -25,51 +25,76 @@ namespace ProjectBase.Web.Controllers
             service = serv;
         }
 
-        public ActionResult Index(Guid? customer, Guid? performer, Guid? chief, int? priority, int page = 1)
+        public ActionResult List(Guid? customer, Guid? performer, Guid? chief, int? priority, DateTime? startDate, DateTime? closeDate, string sortField = "cdate", string sortDir = "desc", int page = 1)
         {
-            return List(customer, performer, chief, priority, page);
-        }
-
-        public ActionResult List(Guid? customer, Guid? performer, Guid? chief, int? priority, int page = 1)
-        {
+            logger.Info("sortDir = ", sortDir);
+            logger.Info("sortField = ", sortField);
             int pageItems = 10;
 
-            IQueryable<ProjectDTO> q = service.GetAll().AsQueryable();
+            IQueryable<ProjectDTO> projects = service.GetAll().AsQueryable();
+
             List<CompanyDTO> customers = service.GetCompanies().ToList();
             List<CompanyDTO> performers = service.GetCompanies().ToList();
             List<EmployeeDTO> chiefs = service.GetEmployees().Where(c => c.IsChief == true).ToList();
 
             customers.Insert(0, new CompanyDTO { Name = "Все", Id = Guid.Empty });
 
+            // фильтрация
             if (customer != null && customer != Guid.Empty)
             {
-                q = q.Where(p => p.CompanyCustomer.Id == customer);
+                projects = projects.Where(p => p.CompanyCustomer.Id == customer);
             }
 
             performers.Insert(0, new CompanyDTO { Name = "Все", Id = Guid.Empty });
 
             if (performer != null && performer != Guid.Empty)
             {
-                q = q.Where(p => p.CompanyPerformer.Id == performer);
+                projects = projects.Where(p => p.CompanyPerformer.Id == performer);
             }
 
             chiefs.Insert(0, new EmployeeDTO { SecondName = "Все", Id = Guid.Empty });
 
             if (chief != null && chief != Guid.Empty)
             {
-                q = q.Where(c => c.ProjectChief.Id == chief);
+                projects = projects.Where(c => c.ProjectChief.Id == chief);
             }
 
-            var qPages = q.Skip((page - 1) * pageItems).Take(pageItems);
-            PageModel pageModel = new PageModel { CurrentPage = page, PageItems = pageItems, TotalItems = q.Count() };
+            if(startDate != null)
+            {
+                projects = projects.Where(d => d.StartDate >= startDate);
+            }
+
+            if (closeDate != null)
+            {
+                projects = projects.Where(d => d.CloseDate <= closeDate);
+            }
+
+            var qPages = projects.Skip((page - 1) * pageItems).Take(pageItems);
+            PageModel pageModel = new PageModel { CurrentPage = page, PageItems = pageItems, TotalItems = projects.Count() };
+
+            //сортировка
+            if (sortField == "name")
+            {
+                if (sortDir == "asc")
+                {
+                    projects = projects.OrderBy(p => p.Name);
+                }
+                else
+                {
+                    projects = projects.OrderByDescending(p => p.Name);
+                }
+            }
 
             return View("List", new ProjectIndexViewModel
             {
-                Projects = q.ToList(),
+                Projects = projects.ToList(),
                 PageModel = pageModel,
                 Customers = new SelectList(customers, "Id", "Name"),
                 Performers = new SelectList(performers, "Id", "Name"),
-                Chiefs = new SelectList(chiefs, "Id", "SecondName")
+                Chiefs = new SelectList(chiefs, "Id", "SecondName"),
+                StartDate = new DateTime(),
+                SortDir = sortDir,
+                SortField = sortField
             });
         }
 

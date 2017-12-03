@@ -7,28 +7,36 @@
 
 <h2>Проекты</h2>
 
-<p>
-    @Html.ActionLink("Создать проект", "Create")
-</p>
 
 <form method="get">
     <div class="form-inline">
         <label class="control-label">Заказчик</label>
         @Html.DropDownList("customer", Model.Customers as SelectList,
                     htmlAttributes: new { @class = "form-control" })
-    </div>
-    <div class="form-inline">
+
         <label class="control-label">Исполнитель</label>
         @Html.DropDownList("performer", Model.Performers as SelectList,
                     htmlAttributes: new { @class = "form-control" })
     </div>
+    <br />
     <div class="form-inline">
         <label class="control-label">Руководитель</label>
         @Html.DropDownList("chief", Model.Chiefs as SelectList,
                     htmlAttributes: new { @class = "form-control" })
-        <input type="submit" value="Фильтр" class="btn btn-default" />
     </div>
+    <br />
+    <div class="form-inline">
+        <label class="control-label">Дата начала</label>
+        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+
+
+        <label class="control-label"> Дата окончания</label>
+        @Html.EditorFor(model => model.CloseDate, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <br />
+    <input type="submit" value="Фильтр" class="btn btn-default" />
 </form>
+<hr />
 
 @if (Model.Projects.Count() != 0)
 {
@@ -38,10 +46,18 @@
 
     <table class="table">
         <tr>
-            <th>Название</th>
+            
+            <th>@if (Model.SortField == "name")
+            {
+                @((Model.SortDir == "desc") ? "↓" : "↑") 
+            } 
+            @Html.ActionLink("Название", "List", new { sortField = "name", sortDir = (Model.SortDir == "asc" && Model.SortField == "name") ? "desc" : "asc" })</th>
+
             <th>Заказчик</th>
             <th>Исполнитель</th>
             <th>Руководитель</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
         </tr>
 
         @foreach (var item in Model.Projects)
@@ -58,6 +74,12 @@
                 </td>
                 <td>
                     @Html.ActionLink(item.ProjectChief.SecondName, "Details", "Employee", new { Id = item.ProjectChief.Id }, null)
+                </td>
+                <td>
+                    @item.StartDate
+                </td>
+                <td>
+                    @item.CloseDate
                 </td>
             </tr>
         }

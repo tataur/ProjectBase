@@ -24,12 +24,6 @@ namespace ProjectBase.Web.Controllers
             employeeService = serv;
         }
 
-        public ActionResult Index()
-        {
-            logger.Info("Index() called");
-            return List();
-        }
-
         public ActionResult List(int page = 1)
         {
             logger.Info("List() called");

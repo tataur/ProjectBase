@@ -1,5 +1,7 @@
 ﻿using ProjectBase.Logic.DTO;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace ProjectBase.Web.Models
@@ -30,6 +32,16 @@ namespace ProjectBase.Web.Models
         public SelectList Performers { get; set; }
         public SelectList Chiefs { get; set; }
         public SelectList Priority { get; set; }
+        public string SortDir { get; set; }
+        public string SortField { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime CloseDate { get; set; }
     }
 
     public class ProjectCreateModel
